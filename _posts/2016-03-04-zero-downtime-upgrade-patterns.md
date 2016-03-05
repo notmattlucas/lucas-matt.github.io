@@ -23,7 +23,9 @@ A stateless system, that is one without any kind of persistent store, is obvious
 
 The most obvious strategy, and the one that is probably most widely used, is that of removing the service from a load balancer, upgrading that service, and once upgraded re-enabling it. Of course this assumes you have some redundancy in your platform to enable you to take parts of it down whilst still serving traffic.
 
-![Remove Add Upgrade Animation]({{ site.url }}/images/remove-upgrade-add.gif)
+{:refdef: style="text-align: center;"}
+![Remove Add Upgrade Animation]({{ site.url }}/images/remove-upgrade-add.gif){: .center-image }
+{: refdef}
 
 Unfortunately, this is a pretty coarse approach to upgrade, and is generally achieved manually by some poor engineer in the middle of the night. As manual is usually synonymous with bug-prone then automating this would be desirable, but isn't trivial in a traditional bare-metal deployment as managing running services and state over potentially many nodes is quite tricky and bug-prone in itself.
 
@@ -37,7 +39,7 @@ The core architecture that allows them to achieve this is a master-workers model
 
 > [Inside Nginx - how we designed for performance/scale](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/)
 
-> ![Nginx on the fly upgrade]({{ site.url }}/images/nginx-upgrade.png)
+![Nginx on the fly upgrade]({{ site.url }}/images/nginx-upgrade.png)
 
 > "Nginx’s binary upgrade process achieves the holy grail of high-availability – you can upgrade the software on the fly, without any dropped connections, downtime, or interruption in service.
 
@@ -51,7 +53,9 @@ You could also achieve the equivalent of this architecture by parallel running b
 
 Introduced in Linux kernel 3.9 was the SO_REUSEPORT option. As long as the first server sets this option before binding its socket, then any number of other servers can also bind to the same port if they also set the option beforehand - basically no more "Address already in use" errors. Once enabled the SO_REUSEPORT implementation will distribute connections evenly across all of the processes.
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/so_reuseport.png" width="500" />
+{: refdef}
 
 Of course, the implication here is that we can simply spin up multiple versions of our application, an old and new; drain the old of requests and once drained shut it down.
 
@@ -84,7 +88,9 @@ First let's consider the various dimensions along which this problem can vary:
 
 A schema-less database, such as MongoDB, can support a pattern known as a "Polymorphic Schema", also known as a "single-table model". Rather than all documents in a collection being identical, and so adhering to an implicit schema, the documents can be similar, but not identically structured. These schema, of course, map very closely to object-oriented programming principles. This style of schema feeds well into a schema evolution plan.
 
+{:refdef: style="text-align: center;"}
 ![MongoDB Applied Design Patterns]({{site.url}}/images/MongoDB-Applied-Design-Patterns.png)
+{: refdef}
 
 A traditional RDBMS will evolve its schema through a set of migration scripts. When the system is live, these migrations can become complex or require database locking operations, resulting in periods of extended downtime. This model is also possible in Mongo DB, and similar, but we have alternatives that may suit us better.
 
@@ -102,7 +108,9 @@ Of course there are other, more specific, challenges depending on the type of tr
 
 For database systems that enforce a schema, but a principle that is equally as applicable to all persistence stores, is the concept of forward only migrations.
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/forward-migration.jpg" width="500" />
+{: refdef}
 
 **Never roll back == No messy recovery**
 
@@ -139,7 +147,9 @@ This method is similar to the last, but it's organized slightly differently. Her
 * Clean up any database schema that is not needed after the upgrade.
 * e.g. removing fields from a document
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/expand-contract.png" width="500" />
+{:refdef}
 
 The process we perform here is:
 
@@ -153,23 +163,31 @@ Again, this does not require any DB rollback. The reason for attempting this is 
 
 Most of the above solutions require that upgrades are nice and discrete. That is, they move from version to version in an incremental way, not skipping any releases so that we can control schema compatibility in a pair-wise fashion.
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/incremental.png" width="400" />
+{: refdef}
 
 This is all fine for a continuous delivery, or cloud-based shop, where upgrades are obviously linear and wouldn't be applied any other way. However what if you have a user-base of several parallel deployments all leap-frogging over various versions, as below.
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/good_skip.png" width="400" />
+{: refdef}
 
 One solution is simply to enforce your upgrade path more clearly. So, for example, any app-only change would be a simple revision bump. But any schema change that needs to be handled by one of the above methods would be a larger bump.
 
 It would have to be mandatory to hit every one of these larger version numbers to preserve this incremental schema-change model.
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/bad_skip.png" width="400" />
+{: refdef}
 
 ##Immutable Infrastructure - Docker and Friends
 
 In the world of containers, as deployments are immutable, then a number of the above techniques are not applicable. But the same blue-green principles apply.
 
+{:refdef: style="text-align: center;"}
 <img src="{{site.url}}/images/docker_zdu.png" width="500" />
+{: refdef}
 
 [HAProxy](http://www.haproxy.org/) is a web proxy and load balancer that allows you to change the configuration, restart the process, and (most importantly) have the old process die automatically when there is no more traffic running through it. So a simple upgrade would go as follows:
 
