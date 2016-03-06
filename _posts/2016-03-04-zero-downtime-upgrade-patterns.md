@@ -170,7 +170,7 @@ Most of the above solutions require that upgrades are nice and discrete. That is
 This is all fine for a continuous delivery, or cloud-based shop, where upgrades are obviously linear and wouldn't be applied any other way. However what if you have a user-base of several parallel deployments all leap-frogging over various versions, as below.
 
 {:refdef: style="text-align: center;"}
-<img src="{{site.url}}/images/good_skip.png" width="400" />
+<img src="{{site.url}}/images/bad_skip.png" width="400" />
 {: refdef}
 
 One solution is simply to enforce your upgrade path more clearly. So, for example, any app-only change would be a simple revision bump. But any schema change that needs to be handled by one of the above methods would be a larger bump.
@@ -178,7 +178,7 @@ One solution is simply to enforce your upgrade path more clearly. So, for exampl
 It would have to be mandatory to hit every one of these larger version numbers to preserve this incremental schema-change model.
 
 {:refdef: style="text-align: center;"}
-<img src="{{site.url}}/images/bad_skip.png" width="400" />
+<img src="{{site.url}}/images/good_skip.png" width="400" />
 {: refdef}
 
 ## Immutable Infrastructure - Docker and Friends
