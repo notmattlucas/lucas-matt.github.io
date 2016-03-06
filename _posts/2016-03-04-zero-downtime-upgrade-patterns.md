@@ -7,7 +7,7 @@ tags: [upgrade, docker, linux, production]
 image:
   feature: downtime.jpg
 ---
-In the modern software landscape it is increasingly important, not to mention expected, that services be upgraded without causing downtime to the end user. In an industry such as IPTV to make the service unavailable to the end user for a period of time, even in the middle of the night, is generally unacceptable.
+In the modern software landscape it is increasingly important, even expected, that services be upgraded without causing downtime to the end user. In an industry such as IPTV to make the service unavailable to the end user for a period of time, even in the middle of the night, is generally unacceptable.
 
 This page will survey the problems that various technologies face in this regard, and detail common patterns for tackling them.
 
