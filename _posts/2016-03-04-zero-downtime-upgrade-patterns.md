@@ -15,11 +15,11 @@ This page will survey the problems that various technologies face in this regard
 
 It's worth noting here that most of these approaches are essentially just variations on the Blue Green Deployment strategy, as described by Martin Fowler [here](http://martinfowler.com/bliki/BlueGreenDeployment.html).
 
-##Stateless Systems / Considering Only the Application Layer
+## Stateless Systems / Considering Only the Application Layer
 
 A stateless system, that is one without any kind of persistent store, is obviously the simplest case we can consider for a zero downtime upgrade and will cover many principles that can be used in all other cases, when considering the application in isolation.
 
-###Remove-Upgrade-Add
+### Remove-Upgrade-Add
 
 The most obvious strategy, and the one that is probably most widely used, is that of removing the service from a load balancer, upgrading that service, and once upgraded re-enabling it. Of course this assumes you have some redundancy in your platform to enable you to take parts of it down whilst still serving traffic.
 
@@ -29,9 +29,9 @@ The most obvious strategy, and the one that is probably most widely used, is tha
 
 Unfortunately, this is a pretty coarse approach to upgrade, and is generally achieved manually by some poor engineer in the middle of the night. As manual is usually synonymous with bug-prone then automating this would be desirable, but isn't trivial in a traditional bare-metal deployment as managing running services and state over potentially many nodes is quite tricky and bug-prone in itself.
 
-###Fixing the Restart Problem
+### Fixing the Restart Problem
 
-####Master - Workers Model
+#### Master - Workers Model
 
 World class http servers (e.g. nginx, unicorn) and process managers (e.g. node's pm2) have inbuilt features that allow for zero-downtime upgrades within the context of a single machine, avoiding the tedium of the above remove-upgrade-add cycle but achieving the same end goal (remember we're still talking application layer only, so no state to worry about).
 
@@ -49,7 +49,7 @@ There are tools that are able to achieve this natively for your own project (the
 
 You could also achieve the equivalent of this architecture by parallel running both versions of your app on the same node, and using <strong>nginx reload</strong> to seamlessly switch your configuration between the two.
 
-###so_reuseport
+### so_reuseport
 
 Introduced in Linux kernel 3.9 was the SO_REUSEPORT option. As long as the first server sets this option before binding its socket, then any number of other servers can also bind to the same port if they also set the option beforehand - basically no more "Address already in use" errors. Once enabled the SO_REUSEPORT implementation will distribute connections evenly across all of the processes.
 
@@ -59,7 +59,7 @@ Introduced in Linux kernel 3.9 was the SO_REUSEPORT option. As long as the first
 
 Of course, the implication here is that we can simply spin up multiple versions of our application, an old and new; drain the old of requests and once drained shut it down.
 
-##Stateful Systems / Evolving the Database
+## Stateful Systems / Evolving the Database
 
 It's when we get to stateful systems that we begin to hit problems with zero downtime upgrades, or live migration. There is much to consider here, as we have various data-store properties and numerous different uses cases, especially in a micro-service model where each service is tuned in a very specific way. Inevitably most of the available patterns do not fit all circumstances.
 
@@ -84,7 +84,7 @@ First let's consider the various dimensions along which this problem can vary:
 * Removal of a record
 * Refactoring of a record - *e.g. splitting into multiple*
 
-###Polymorphic Schema / Lazy Migration
+### Polymorphic Schema / Lazy Migration
 
 A schema-less database, such as MongoDB, can support a pattern known as a "Polymorphic Schema", also known as a "single-table model". Rather than all documents in a collection being identical, and so adhering to an implicit schema, the documents can be similar, but not identically structured. These schema, of course, map very closely to object-oriented programming principles. This style of schema feeds well into a schema evolution plan.
 
@@ -133,7 +133,7 @@ As you can imagine, this will require some strict adherence to convention. For e
 
 This technique seems most successfully employed in a continuous delivery environment ([I](http://engineering.skybettingandgaming.com/2016/02/02/how-we-release-so-frequently/))
 
-###Expansion / Upgrade / Contraction Scripts
+### Expansion / Upgrade / Contraction Scripts
 
 This method is similar to the last, but it's organized slightly differently. Here we use two different sets of migration scripts:
 
@@ -159,7 +159,7 @@ The process we perform here is:
 
 Again, this does not require any DB rollback. The reason for attempting this is that reversing DB changes can lead to potential loss of data or leaving your system in an inconsistent state. It is safer to rollback the application without needing to rollback DB changes as expansions are backwards compatible.
 
-###One Big Caveat for the Above
+### One Big Caveat for the Above
 
 Most of the above solutions require that upgrades are nice and discrete. That is, they move from version to version in an incremental way, not skipping any releases so that we can control schema compatibility in a pair-wise fashion.
 
@@ -181,7 +181,7 @@ It would have to be mandatory to hit every one of these larger version numbers t
 <img src="{{site.url}}/images/bad_skip.png" width="400" />
 {: refdef}
 
-##Immutable Infrastructure - Docker and Friends
+## Immutable Infrastructure - Docker and Friends
 
 In the world of containers, as deployments are immutable, then a number of the above techniques are not applicable. But the same blue-green principles apply.
 
@@ -197,7 +197,7 @@ In the world of containers, as deployments are immutable, then a number of the a
 
 Of course, this can all be automated, but that's for another time.
 
-##References
+## References
 
 * [No Downtime Database Migrations](http://www.planetcassandra.org/blog/no-downtime-database-migrations/)
 * [Blue Green Deployment](http://martinfowler.com/bliki/BlueGreenDeployment.html)
