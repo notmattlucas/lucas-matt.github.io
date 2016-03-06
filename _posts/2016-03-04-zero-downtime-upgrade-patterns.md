@@ -198,6 +198,7 @@ In the world of containers, as deployments are immutable, then a number of the a
 Of course, this can all be automated, but that's for another time.
 
 ##References
+
 * [No Downtime Database Migrations](http://www.planetcassandra.org/blog/no-downtime-database-migrations/)
 * [Blue Green Deployment](http://martinfowler.com/bliki/BlueGreenDeployment.html)
 * [Implementing Blue-Green Deployments with AWS](https://www.thoughtworks.com/insights/blog/implementing-blue-green-deployments-aws)
