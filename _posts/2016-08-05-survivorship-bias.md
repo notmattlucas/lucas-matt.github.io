@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Survivorship Bias and Choosing Tech Carefully 
+title: Survivorship Bias and Negotiating Tech Hype
 description: "The role of survivorship bias and
 web-scale/high-performance envy when software developers choose
 new tech."
 modified: 2016-03-04
-tags: [thinking statistics development]
+tags: [thinking, statistics, development]
 image:
   feature: whaam.jpg
 ---
@@ -58,26 +58,38 @@ just the rare, billion-dollar, success stories.
 
 ## Choosing Tech Thoughtfully
 
-As well as being responsible for the latest diet fads, exaggerated
-performance of mutual funds, and "nostalgia goggles", we can see this
-bias haunting certain corners of the software development world.
+As well as being responsible for the latest diet fads and the exaggerated
+performance of mutual funds, we can see this
+bias lurking in certain corners of the software development world.
 
 {:refdef: style="text-align: center;"}
 ![Thinking]({{ site.url }}/images/homer_thought.jpg){:
 .center-image width="75%" }
 {: refdef}
 
-How often do you see a wave of enthusiasm for the next NoSQL
-technology or 
+How often do you see a wave of enthusiasm for the next high
+throughput NoSQL
+system or a push for complicated elastic scaling technology. Companies
+such as Twitter and Netflix present their wild successes with certain
+software, but we don't usually see qualifications on the size and
+scale of the teams implementing these solutions.
 
-* fashionable tech
-* big data
-* web envy
+It's worth keeping in
+mind the silent teams struggling under the
+weight of "web-scale" technology, caused by their high-performance envy,
+before jumping onto a wave of new tech.
 
+Similarly, CEO's push the "Big Data" buzzword,
+commissioning solutions that aspire to those of Facebook and Google
+whilst they fumble for a real business case.
+
+Before believing the hype, just take a moment to look past the glory
+of a winner's story to check for a potential graveyard of failed
+projects.
 
 ## References
 
 * [You Are Not So
   Smart](https://youarenotsosmart.com/2013/05/23/survivorship-bias/)
 * [How Not to Be Wrong: The Hidden Maths of Everyday Life](https://www.amazon.co.uk/dp/071819604X)
-
+* [High performance envy/web scale envy](https://www.thoughtworks.com/radar/techniques/high-performance-envy-web-scale-envy)
