@@ -15,15 +15,17 @@ image:
 During the dark days of World War II the American military presented
 their Statistical Research Group with a problem. They wanted to add additional armour to
 their bombers, but clearly couldn't put the armour everywhere because
-of the additional weight it would add to the planes.
+of the additional weight it would add to the planes. The group was
+tasked with working out how much armor to allocate to the various regions
+of the aircraft to maximize defense whilst minimizing any effect on
+fuel consumption and agility.
 
 Engineers inspected a number of bombers that had seen some action. These
 planes had bullet holes that were distributed mainly across the wings
-and body. Comparatively the engines and cockpit had much less damage. This had lead the commanders to make the obvious conclusion that
+and body. Comparatively the engines and cockpit had much less
+damage. This had lead the commanders to make the obvious, but foolish, conclusion that
 they should enhance armour on areas that had been hit most
-frequently, namely the fuselage and wings. They just needed to know by
-exactly what proportion, and this
-is where the statisticians came in.
+frequently, namely the fuselage and wings. 
 
 One of the many geniuses of the group, Abraham Wald, realised that they
 were looking at the problem from completely the wrong angle. It's not
@@ -34,7 +36,7 @@ that could take a battering and still survive.
 
 ## Survivorship Bias
 
-How do you evaluate a success when the failures are nowhere
+How do you really evaluate a success when the failures are nowhere
 to be seen?
 
 {:refdef: style="text-align: center;"}
@@ -44,13 +46,13 @@ to be seen?
 
 Countless articles, books and documentaries have been produced about
 successful people and how to capture the principles of their success to
-improve your own fortunes.
+improve your own fortune.
 
 Consider Steve Jobs - frequently heralded as a one of the greatest
 geniuses of our time - how do we emulate his success? Clearly dropping
 out of college, spending time at meditation retreats and starting a
 business from your parent's garage is the way to go. But what about
-the hundreds of thousands of budding Apple founders for who mchoictechoicehis
+the hundreds of thousands of budding Apple founders for whom this
 strategy never quite worked out?
 
 Books aren't usually written about failed enterprises,
@@ -69,23 +71,28 @@ bias lurking in certain corners of the software development world.
 
 How often do you see a wave of enthusiasm for the next high
 throughput NoSQL
-system or a push for complicated elastic scaling technology. Companies
-such as Twitter and Netflix present their wild successes with certain
-software, but we don't usually see qualifications on the size and
+system or a push for complicated elastic scaling technology? Companies
+such as Twitter and Netflix present their wild successes but we don't usually see qualifications on the size and
 scale of the teams implementing these solutions.
 
 It's worth keeping in
-mind the silent teams struggling under the
-weight of "web-scale" technology, caused by their high-performance envy,
-before jumping onto a wave of new tech.
+mind the potential for a mass of silent teams. Struggling under the
+weight of overpowered, over-engineered, "web-scale" technologies
+inspired by the industry front-runners. Most of us mere mortals just don't
+have the resources, skills, or (most importantly) even the need for
+such high class deployments. Most of the time it's just better to keep
+things simple and known.
 
-Similarly, CEO's push the "Big Data" buzzword,
-commissioning solutions that aspire to those of Facebook and Google
-whilst they fumble for a real business case.
+Similarly, businesses push on with "Big Data" for fear of missing
+out, but without any real understanding of what they really
+need. Solutions are commissioned that aspire to the heights of Facebook and Google
+whilst in reality they fumble for a real business-value providing use-case.
 
-Before believing the hype, just take a moment to look past the glory
-of a winner's story to check for a potential graveyard of failed
-projects.
+Don't get me wrong, I'm 100% all for learning new paradigms, languages
+and frameworks. This is just a reminder, as much to myself as anyone
+else, to take a moment to think past the biases that may lead us to
+make some regrettable, albeit well-intentioned and over-excited, choices.
+
 
 ## References
 
