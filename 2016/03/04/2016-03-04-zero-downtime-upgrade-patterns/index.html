@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Zero Downtime Upgrade Problems and Patterns | lucasmatt.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="A survey of the problems that various technologies face in this regard, and detail common patterns for tackling them.">
+<meta name="keywords" content="upgrade,docker,linux,production">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zero Downtime Upgrade Problems and Patterns">
+<meta property="og:url" content="http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/index.html">
+<meta property="og:site_name" content="lucasmatt.com">
+<meta property="og:description" content="A survey of the problems that various technologies face in this regard, and detail common patterns for tackling them.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://lucasmatt.com/images/downtime.jpg">
+<meta property="og:updated_time" content="2018-05-27T15:07:31.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zero Downtime Upgrade Problems and Patterns">
+<meta name="twitter:description" content="A survey of the problems that various technologies face in this regard, and detail common patterns for tackling them.">
+<meta name="twitter:image" content="http://lucasmatt.com/images/downtime.jpg">
+<meta name="twitter:creator" content="@notmattlucas">
+<link rel="publisher" href="lucas1000001">
+    
+
+    
+        <link rel="alternate" href="/rss2.xml" title="lucasmatt.com" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17281106-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">lucasmatt.com</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">Matthew Lucas</h2>
+            <h3 id="title">Software Developer &amp; General Nerd</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Cardiff, UK</span>
+            <a id="follow" target="_blank" href="https://github.com/lucas-matt/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                12
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                20
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/lucas-matt" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://twitter.com/notmattlucas" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/rss2.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-2016-03-04-zero-downtime-upgrade-patterns" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Zero Downtime Upgrade Problems and Patterns
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/">
+            <time datetime="2016-03-04T00:00:00.000Z" itemprop="datePublished">2016-03-04</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/docker/">docker</a>, <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/production/">production</a>, <a class="tag-link" href="/tags/upgrade/">upgrade</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/images/downtime.jpg" alt=""><br>In the modern software landscape it is increasingly important, even expected, that services be upgraded without causing downtime to the end user. In an industry such as IPTV to make the service unavailable to the end user for a period of time, even in the middle of the night, is generally unacceptable.</p>
+<p>This page will survey the problems that various technologies face in this regard, and detail common patterns for tackling them.</p>
+<p>This page will survey the problems that various technologies face in this regard, and detail common patterns for tackling them.</p>
+<p>It’s worth noting here that most of these approaches are essentially just variations on the Blue Green Deployment strategy, as described by Martin Fowler <a href="http://martinfowler.com/bliki/BlueGreenDeployment.html" target="_blank" rel="noopener">here</a>.</p>
+<h2 id="Stateless-Systems-Considering-Only-the-Application-Layer"><a href="#Stateless-Systems-Considering-Only-the-Application-Layer" class="headerlink" title="Stateless Systems / Considering Only the Application Layer"></a>Stateless Systems / Considering Only the Application Layer</h2><p>A stateless system, that is one without any kind of persistent store, is obviously the simplest case we can consider for a zero downtime upgrade and will cover many principles that can be used in all other cases, when considering the application in isolation.</p>
+<h3 id="Remove-Upgrade-Add"><a href="#Remove-Upgrade-Add" class="headerlink" title="Remove-Upgrade-Add"></a>Remove-Upgrade-Add</h3><p>The most obvious strategy, and the one that is probably most widely used, is that of removing the service from a load balancer, upgrading that service, and once upgraded re-enabling it. Of course this assumes you have some redundancy in your platform to enable you to take parts of it down whilst still serving traffic.</p>
+<p><img src="/images/remove-upgrade-add.gif" alt="Remove Add Upgrade Animation"></p>
+<p>Unfortunately, this is a pretty coarse approach to upgrade, and is generally achieved manually by some poor engineer in the middle of the night. As manual is usually synonymous with bug-prone then automating this would be desirable, but isn’t trivial in a traditional bare-metal deployment as managing running services and state over potentially many nodes is quite tricky and bug-prone in itself.</p>
+<h3 id="Fixing-the-Restart-Problem"><a href="#Fixing-the-Restart-Problem" class="headerlink" title="Fixing the Restart Problem"></a>Fixing the Restart Problem</h3><h4 id="Master-Workers-Model"><a href="#Master-Workers-Model" class="headerlink" title="Master - Workers Model"></a>Master - Workers Model</h4><p>World class http servers (e.g. nginx, unicorn) and process managers (e.g. node’s pm2) have inbuilt features that allow for zero-downtime upgrades within the context of a single machine, avoiding the tedium of the above remove-upgrade-add cycle but achieving the same end goal (remember we’re still talking application layer only, so no state to worry about).</p>
+<p>The core architecture that allows them to achieve this is a master-workers model. In this model we have one core process performing all privileged operations (such as reading configuration or binding to ports) and a number of workers and helper processes (the app itself). The point here, is that this allows for the workers to be switched out behind the scenes, the master effectively working as a software load balancer.</p>
+<blockquote>
+<p><a href="https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/" target="_blank" rel="noopener">Inside Nginx - how we designed for performance/scale</a></p>
+</blockquote>
+<p><img src="/images/nginx-upgrade.png" alt="Nginx on the fly upgrade"></p>
+<blockquote>
+<p>“Nginx’s binary upgrade process achieves the holy grail of high-availability – you can upgrade the software on the fly, without any dropped connections, downtime, or interruption in service.</p>
+</blockquote>
+<blockquote>
+<p>The binary upgrade process is similar in approach to the graceful reload of configuration. A new NGINX master process runs in parallel with the original master process, and they share the listening sockets. Both processes are active, and their respective worker processes handle traffic. You can then signal the old master and its workers to gracefully exit.”</p>
+</blockquote>
+<p>There are tools that are able to achieve this natively for your own project (the aforementioned pm2) and also as a generic solution across various platforms (<a href="https://github.com/zimbatm/socketmaster" target="_blank" rel="noopener">socketmaster</a>, <a href="https://github.com/stripe/einhorn" target="_blank" rel="noopener">einhorn</a>).</p>
+<p>You could also achieve the equivalent of this architecture by parallel running both versions of your app on the same node, and using <strong>nginx reload</strong> to seamlessly switch your configuration between the two.</p>
+<h3 id="so-reuseport"><a href="#so-reuseport" class="headerlink" title="so_reuseport"></a>so_reuseport</h3><p>Introduced in Linux kernel 3.9 was the SO_REUSEPORT option. As long as the first server sets this option before binding its socket, then any number of other servers can also bind to the same port if they also set the option beforehand - basically no more “Address already in use” errors. Once enabled the SO_REUSEPORT implementation will distribute connections evenly across all of the processes.</p>
+<p><img src="/images/so_reuseport.png" width="500"></p>
+<p>Of course, the implication here is that we can simply spin up multiple versions of our application, an old and new; drain the old of requests and once drained shut it down.</p>
+<h2 id="Stateful-Systems-Evolving-the-Database"><a href="#Stateful-Systems-Evolving-the-Database" class="headerlink" title="Stateful Systems / Evolving the Database"></a>Stateful Systems / Evolving the Database</h2><p>It’s when we get to stateful systems that we begin to hit problems with zero downtime upgrades, or live migration. There is much to consider here, as we have various data-store properties and numerous different uses cases, especially in a micro-service model where each service is tuned in a very specific way. Inevitably most of the available patterns do not fit all circumstances.</p>
+<p>First let’s consider the various dimensions along which this problem can vary:</p>
+<p><strong>Mutability of Data</strong></p>
+<ul>
+<li>Read only systems - <em>metadata retrieval, or notification systems</em></li>
+<li>Write only systems - <em>immutable data stores, event sourcing systems</em></li>
+<li>Read-Write systems - <em>account management, bookmarking, etc</em></li>
+</ul>
+<p><strong>Data Store Properties</strong></p>
+<ul>
+<li>Schema based DB system - <em>Oracle, Cassandra</em></li>
+<li>Schema-less - <em>MongoDB, Redis</em></li>
+<li>Archive (essentially non-interactive) data store - <em>e.g. HDFS with Avro</em></li>
+</ul>
+<p><strong>Evolution Type</strong></p>
+<ul>
+<li>Addition of a field</li>
+<li>Removal or rename of a field</li>
+<li>Removal of a record</li>
+<li>Refactoring of a record - <em>e.g. splitting into multiple</em></li>
+</ul>
+<h3 id="Polymorphic-Schema-Lazy-Migration"><a href="#Polymorphic-Schema-Lazy-Migration" class="headerlink" title="Polymorphic Schema / Lazy Migration"></a>Polymorphic Schema / Lazy Migration</h3><p>A schema-less database, such as MongoDB, can support a pattern known as a “Polymorphic Schema”, also known as a “single-table model”. Rather than all documents in a collection being identical, and so adhering to an implicit schema, the documents can be similar, but not identically structured. These schema, of course, map very closely to object-oriented programming principles. This style of schema feeds well into a schema evolution plan.</p>
+<p><img src="/images/MongoDB-Applied-Design-Patterns.png" alt="MongoDB Applied Design Patterns"></p>
+<p>A traditional RDBMS will evolve its schema through a set of migration scripts. When the system is live, these migrations can become complex or require database locking operations, resulting in periods of extended downtime. This model is also possible in Mongo DB, and similar, but we have alternatives that may suit us better.</p>
+<p>By using a polymorphic schema we can account for the absence of a new field through defaults. Similar behavior can be implemented for field removal also, and these kinds of transformations are handled elegantly by Mongo ORM libraries if you want to avoid coding this logic yourself.</p>
+<p>By applying these transformations lazily, as records are naturally read and written back to the database, the schema is slowly transformed into the latest. By running through all records in a collection, we would be able to force a full upgrade of the full collections.</p>
+<p>Of course there are other, more specific, challenges depending on the type of transformation required:</p>
+<ul>
+<li><p>How do we perform collection refactoring exercises (e.g. splitting out a single collection into multiple related collections) - <em>would a _version field on an object allow us to trigger migrations more effectively in this case?</em></p>
+</li>
+<li><p>How would we perform queries based upon that new field? - <em>by forcing a read-write of all records, and therefore completing the transformation whilst the system was still alive?</em></p>
+</li>
+</ul>
+<h3 id="Forward-Only-Migrations"><a href="#Forward-Only-Migrations" class="headerlink" title="Forward Only Migrations"></a>Forward Only Migrations</h3><p>For database systems that enforce a schema, but a principle that is equally as applicable to all persistence stores, is the concept of forward only migrations.</p>
+<p><img src="/images/forward-migration.jpg" width="500"></p>
+<p><strong>Never roll back == No messy recovery</strong></p>
+<p>In this practice every database migration performed should be compatible with both the <strong>new</strong> version of the code <em>and</em> the <strong>previous</strong> one. Then if you have to roll back a code release the previous version is perfectly happy using the new version of the software.</p>
+<p>As you can imagine, this will require some strict adherence to convention. For example, dropping a column:</p>
+<p><strong>Dropping a Column</strong></p>
+<ul>
+<li>Release a version of the code that doesn’t use the column.</li>
+<li>Ensure that it is stable, and won’t be rolled back.</li>
+<li>Do a second release that has a migration to remove the column now that it isn’t being used.</li>
+</ul>
+<p><strong>Rename a Column</strong></p>
+<ul>
+<li>Release a version that adds a new column with the new name, changing the code to write to both but read from the old.</li>
+<li>Employ a batch job to copy data from the old column to the new column - one row at a time to avoid locking the database.</li>
+<li>Release a version that reads from and writes to the new column.</li>
+<li>In the next release, drop the column</li>
+</ul>
+<p>This technique seems most successfully employed in a continuous delivery environment (<a href="http://engineering.skybettingandgaming.com/2016/02/02/how-we-release-so-frequently/" target="_blank" rel="noopener">I</a>)</p>
+<h3 id="Expansion-Upgrade-Contraction-Scripts"><a href="#Expansion-Upgrade-Contraction-Scripts" class="headerlink" title="Expansion / Upgrade / Contraction Scripts"></a>Expansion / Upgrade / Contraction Scripts</h3><p>This method is similar to the last, but it’s organized slightly differently. Here we use two different sets of migration scripts:</p>
+<p><strong>Expansion Scripts</strong></p>
+<ul>
+<li>Apply changes to the documents safely, that <strong>do not</strong> break backwards compatibility with the existing version of the application.</li>
+<li>e.g. Adding, copying, merging splitting fields in a document.</li>
+</ul>
+<p><strong>Contraction Scripts</strong></p>
+<ul>
+<li>Clean up any database schema that is not needed after the upgrade.</li>
+<li>e.g. removing fields from a document</li>
+</ul>
+<p><img src="/images/expand-contract.png" width="500"></p>
+<p>The process we perform here is:</p>
+<ol>
+<li><strong>Expand</strong> - Run expansion scripts before upgrading the application</li>
+<li><strong>Upgrade</strong> - Upgrade the cluster one node at a time</li>
+<li><strong>Contract</strong> - Once the system has been completely upgraded and deemed stable. Typically, contractions can be run, say days/weeks after complete validation</li>
+</ol>
+<p>Again, this does not require any DB rollback. The reason for attempting this is that reversing DB changes can lead to potential loss of data or leaving your system in an inconsistent state. It is safer to rollback the application without needing to rollback DB changes as expansions are backwards compatible.</p>
+<h3 id="One-Big-Caveat-for-the-Above"><a href="#One-Big-Caveat-for-the-Above" class="headerlink" title="One Big Caveat for the Above"></a>One Big Caveat for the Above</h3><p>Most of the above solutions require that upgrades are nice and discrete. That is, they move from version to version in an incremental way, not skipping any releases so that we can control schema compatibility in a pair-wise fashion.</p>
+<p><img src="/images/incremental.png" width="400"></p>
+<p>This is all fine for a continuous delivery, or cloud-based shop, where upgrades are obviously linear and wouldn’t be applied any other way. However what if you have a user-base of several parallel deployments all leap-frogging over various versions, as below.</p>
+<p><img src="/images/bad_skip.png" width="400"></p>
+<p>One solution is simply to enforce your upgrade path more clearly. So, for example, any app-only change would be a simple revision bump. But any schema change that needs to be handled by one of the above methods would be a larger bump.</p>
+<p>It would have to be mandatory to hit every one of these larger version numbers to preserve this incremental schema-change model.</p>
+<p><img src="/images/good_skip.png" width="400"></p>
+<h2 id="Immutable-Infrastructure-Docker-and-Friends"><a href="#Immutable-Infrastructure-Docker-and-Friends" class="headerlink" title="Immutable Infrastructure - Docker and Friends"></a>Immutable Infrastructure - Docker and Friends</h2><p>In the world of containers, as deployments are immutable, then a number of the above techniques are not applicable. But the same blue-green principles apply.</p>
+<p><img src="/images/docker_zdu.png" width="500"></p>
+<p><a href="http://www.haproxy.org/" target="_blank" rel="noopener">HAProxy</a> is a web proxy and load balancer that allows you to change the configuration, restart the process, and (most importantly) have the old process die automatically when there is no more traffic running through it. So a simple upgrade would go as follows:</p>
+<ul>
+<li>Start a new version of the container</li>
+<li>Tell HAProxy to direct all new traffic to the new container whilst maintaining existing connections to the previous.</li>
+<li>All new users get access to the new code immediately, whilst existing users are not cut-off from their in-progress requests.</li>
+</ul>
+<p>Of course, this can all be automated, but that’s for another time.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://www.planetcassandra.org/blog/no-downtime-database-migrations/" target="_blank" rel="noopener">No Downtime Database Migrations</a></li>
+<li><a href="http://martinfowler.com/bliki/BlueGreenDeployment.html" target="_blank" rel="noopener">Blue Green Deployment</a></li>
+<li><a href="https://www.thoughtworks.com/insights/blog/implementing-blue-green-deployments-aws" target="_blank" rel="noopener">Implementing Blue-Green Deployments with AWS</a></li>
+<li><a href="http://www.uswitch.com/tech/zero-downtime-clojure-deployments/" target="_blank" rel="noopener">Zero Downtime Clojure Deployments</a></li>
+<li><a href="https://docs.quay.io/solution/zero-downtime-deployments.html" target="_blank" rel="noopener">Zero Downtime Deployments (in the context of Docker)</a></li>
+<li><a href="http://kubernetes.io/v1.1/docs/user-guide/update-demo/README.html" target="_blank" rel="noopener">Kubernetes Rolling Update Example</a></li>
+<li><a href="http://openmymind.net/Framework-Agnostic-Zero-Downtime-Deployment-With-Nginx/" target="_blank" rel="noopener">Framework Agnostic Zero Downtime Deployment with Nginx</a></li>
+<li><a href="https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/" target="_blank" rel="noopener">Inside NGINX: How We Designed for Performance &amp; Scale</a></li>
+<li><a href="http://www.ebaytechblog.com/2013/11/21/zero-downtime-instant-deployment-and-rollback/" target="_blank" rel="noopener">Zero Downtime, Instance Deployment and Rollback</a></li>
+<li><a href="https://lwn.net/Articles/542629/" target="_blank" rel="noopener">The SO_REUSEPORT Socket Option</a></li>
+<li><a href="http://engineering.skybettingandgaming.com/2016/02/02/how-we-release-so-frequently/" target="_blank" rel="noopener">How We Release So Frequently</a></li>
+<li><a href="https://www.simple-talk.com/sql/database-administration/continuous-delivery-and-the-database/" target="_blank" rel="noopener">Continuous Delivery and the Database</a></li>
+<li><a href="http://www.slideshare.net/DhavalDalal/midas-onthefly-schema-migration-tool-for-mongodb" target="_blank" rel="noopener">Midas On the Fly Migration Tool for Mongo DB</a></li>
+<li><a href="http://doc.akka.io/docs/akka/snapshot/scala/persistence-schema-evolution.html" target="_blank" rel="noopener">Akka Persistence - Schema Evolution</a></li>
+<li><a href="http://shop.oreilly.com/product/0636920027041.do" target="_blank" rel="noopener">MongoDB Applied Design Patterns [Book]</a></li>
+<li><a href="https://blog.justjuzzy.com/2012/11/migrate-your-database-upon-deployments/" target="_blank" rel="noopener">Migrating Your Database Upon Deployments</a></li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/" data-id="cjhz4jgh00002g5r1d8na8ynf" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/08/13/2016-08-13-7favegames/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    #7FaveGames - Creating a Word Cloud from 346,859 Tweets
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/03/04/2016-08-05-survivorship-bias/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Survivorship Bias and Negotiating Tech Hype</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/13/testing-nightmares/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/nightmare.jpg)" alt="6(66) Nightmares of Microservice Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Testing/">Testing</a></p>
+                            <p class="item-title"><a href="/2018/03/13/testing-nightmares/" class="title">6(66) Nightmares of Microservice Testing</a></p>
+                            <p class="item-date"><time datetime="2018-03-13T19:35:18.000Z" itemprop="datePublished">2018-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/17/bits-2017-02-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/flat_bits_thumb.jpg)" alt="[Bits 1] Year of the Dog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/bits/">bits</a></p>
+                            <p class="item-title"><a href="/2018/02/17/bits-2017-02-18/" class="title">[Bits 1] Year of the Dog</a></p>
+                            <p class="item-date"><time datetime="2018-02-17T00:00:00.000Z" itemprop="datePublished">2018-02-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/01/radar-jan-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/radar-jan-18/firework.jpg)" alt="Technology Radar Jan &#39;18" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech-Radar/">Tech Radar</a></p>
+                            <p class="item-title"><a href="/2018/01/01/radar-jan-18/" class="title">Technology Radar Jan &#39;18</a></p>
+                            <p class="item-date"><time datetime="2018-01-01T00:00:00.000Z" itemprop="datePublished">2018-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/22/spring-microservices/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring-microservices/spring.jpg)" alt="Spring Cloud in 10 Bad Cartoons" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/22/spring-microservices/" class="title">Spring Cloud in 10 Bad Cartoons</a></p>
+                            <p class="item-date"><time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/13/python-async/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/python-async/python.jpg)" alt="Python 3 Asyncio" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/13/python-async/" class="title">Python 3 Asyncio</a></p>
+                            <p class="item-date"><time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Science/">Data Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech-Radar/">Tech Radar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thoughts/">Thoughts</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bits/">bits</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/augeas/" style="font-size: 10px;">augeas</a> <a href="/tags/bits/" style="font-size: 10px;">bits</a> <a href="/tags/data-science/" style="font-size: 10px;">data science</a> <a href="/tags/development/" style="font-size: 10px;">development</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/growth/" style="font-size: 10px;">growth</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/microservices/" style="font-size: 20px;">microservices</a> <a href="/tags/production/" style="font-size: 10px;">production</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/radar/" style="font-size: 10px;">radar</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/statistics/" style="font-size: 15px;">statistics</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a> <a href="/tags/thinking/" style="font-size: 15px;">thinking</a> <a href="/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.linkedin.com/in/lucas-matt/">linkedin</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://twitter.com/NotMattLucas">twitter</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/lucas-matt">github</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Matt Lucas<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/';
+        
+        this.page.identifier = '2016-03-04-zero-downtime-upgrade-patterns';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'lucasmatt.com' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>lucasmatt.com</title>
+    <link>http://lucasmatt.com/</link>
+    <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
+    
+    <description></description>
+    <pubDate>Sun, 27 May 2018 15:07:31 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>6(66) Nightmares of Microservice Testing</title>
+      <link>http://lucasmatt.com/2018/03/13/testing-nightmares/</link>
+      <guid>http://lucasmatt.com/2018/03/13/testing-nightmares/</guid>
+      <pubDate>Tue, 13 Mar 2018 19:35:18 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/images/nightmare.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align: right&quot;&gt;&lt;sub&gt;&lt;sup&gt;&lt;a href=&quot;https://www.flickr.com/photos/ollierb/1457
+        
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2018/03/13/testing-nightmares/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>[Bits 1] Year of the Dog</title>
+      <link>http://lucasmatt.com/2018/02/17/bits-2017-02-18/</link>
+      <guid>http://lucasmatt.com/2018/02/17/bits-2017-02-18/</guid>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/images/flat_bits.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&quot;Happy-new-year-…-again&quot;&gt;&lt;a href=&quot;#Happy-new-year-…-again&quot; class=&quot;headerlink&quot; ti
+        
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2018/02/17/bits-2017-02-18/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Technology Radar Jan &#39;18</title>
+      <link>http://lucasmatt.com/2018/01/01/radar-jan-18/</link>
+      <guid>http://lucasmatt.com/2018/01/01/radar-jan-18/</guid>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 GMT</pubDate>
+      <description>
+      
+        Personal technology radar for Jan &#39;18
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2018/01/01/radar-jan-18/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Spring Cloud in 10 Bad Cartoons</title>
+      <link>http://lucasmatt.com/2017/08/22/spring-microservices/</link>
+      <guid>http://lucasmatt.com/2017/08/22/spring-microservices/</guid>
+      <pubDate>Tue, 22 Aug 2017 00:00:00 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/images/spring-microservices/spring.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A quick tour of the combined Spring Cloud / Netflix OSS microservic
+        
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2017/08/22/spring-microservices/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Python 3 Asyncio</title>
+      <link>http://lucasmatt.com/2017/08/13/python-async/</link>
+      <guid>http://lucasmatt.com/2017/08/13/python-async/</guid>
+      <pubDate>Sun, 13 Aug 2017 00:00:00 GMT</pubDate>
+      <description>
+      
+        A quick introduction to Python programming with async/await
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2017/08/13/python-async/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Microservices Part 2: Breaking Up That Monolith</title>
+      <link>http://lucasmatt.com/2017/07/31/microservice-mtg-2/</link>
+      <guid>http://lucasmatt.com/2017/07/31/microservice-mtg-2/</guid>
+      <pubDate>Mon, 31 Jul 2017 00:00:00 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/images/microservice-mtg-2/chop.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align: right&quot;&gt;&lt;sub&gt;&lt;sup&gt;&lt;a href=&quot;https://www.flickr.com/photo
+        
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2017/07/31/microservice-mtg-2/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Microservices (Mind the Gap) Part 1: An Introduction</title>
+      <link>http://lucasmatt.com/2017/07/17/microservice-mtg-1/</link>
+      <guid>http://lucasmatt.com/2017/07/17/microservice-mtg-1/</guid>
+      <pubDate>Mon, 17 Jul 2017 00:00:00 GMT</pubDate>
+      <description>
+      
+        Microservices &#39;Mind the Gap&#39;. An introduction to a series about microservice pitfalls, problems and (anti-)patterns - and common strategies to avoid them.
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2017/07/17/microservice-mtg-1/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Python Development with Vagrant &amp; IntelliJ</title>
+      <link>http://lucasmatt.com/2016/08/24/2016-08-24-pyintellij/</link>
+      <guid>http://lucasmatt.com/2016/08/24/2016-08-24-pyintellij/</guid>
+      <pubDate>Wed, 24 Aug 2016 00:00:00 GMT</pubDate>
+      <description>
+      
+        A quick guide to making Python development even easier by using Vagrant and IntelliJ
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2016/08/24/2016-08-24-pyintellij/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>#7FaveGames - Creating a Word Cloud from 346,859 Tweets</title>
+      <link>http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/</link>
+      <guid>http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/</guid>
+      <pubDate>Sat, 13 Aug 2016 00:00:00 GMT</pubDate>
+      <description>
+      
+        Creating a word cloud from 346,859 #7FaveGames tweets to find the most popular
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Zero Downtime Upgrade Problems and Patterns</title>
+      <link>http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/</link>
+      <guid>http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/</guid>
+      <pubDate>Fri, 04 Mar 2016 00:00:00 GMT</pubDate>
+      <description>
+      
+        A survey of the problems that various technologies face in this regard, and detail common patterns for tackling them.
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Survivorship Bias and Negotiating Tech Hype</title>
+      <link>http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/</link>
+      <guid>http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/</guid>
+      <pubDate>Fri, 04 Mar 2016 00:00:00 GMT</pubDate>
+      <description>
+      
+        The role of survivorship bias and web-scale/high-performance envy when software developers choose new tech.
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Augeas the Missing Manual</title>
+      <link>http://lucasmatt.com/2015/06/01/2015-06-01-augeas-the-missing-manual/</link>
+      <guid>http://lucasmatt.com/2015/06/01/2015-06-01-augeas-the-missing-manual/</guid>
+      <pubDate>Mon, 01 Jun 2015 00:00:00 GMT</pubDate>
+      <description>
+      
+        A guide for some JSON processing using the Augeas configuration tool
+      
+      </description>
+      
+      <comments>http://lucasmatt.com/2015/06/01/2015-06-01-augeas-the-missing-manual/#disqus_thread</comments>
+    </item>
+    
+  </channel>
+</rss>

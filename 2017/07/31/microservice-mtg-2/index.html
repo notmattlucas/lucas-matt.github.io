@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Microservices Part 2: Breaking Up That Monolith | lucasmatt.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="“axe” (CC BY-NC 2.0) by nothing   This post is part of a larger series on the challenges commonly encountered whilst adapting and running a microservice style architecture. For further entries in thi">
+<meta name="keywords" content="microservices">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Microservices Part 2: Breaking Up That Monolith">
+<meta property="og:url" content="http://lucasmatt.com/2017/07/31/microservice-mtg-2/index.html">
+<meta property="og:site_name" content="lucasmatt.com">
+<meta property="og:description" content="“axe” (CC BY-NC 2.0) by nothing   This post is part of a larger series on the challenges commonly encountered whilst adapting and running a microservice style architecture. For further entries in thi">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://lucasmatt.com/images/microservice-mtg-2/chop.jpg">
+<meta property="og:updated_time" content="2018-05-27T15:07:31.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Microservices Part 2: Breaking Up That Monolith">
+<meta name="twitter:description" content="“axe” (CC BY-NC 2.0) by nothing   This post is part of a larger series on the challenges commonly encountered whilst adapting and running a microservice style architecture. For further entries in thi">
+<meta name="twitter:image" content="http://lucasmatt.com/images/microservice-mtg-2/chop.jpg">
+<meta name="twitter:creator" content="@notmattlucas">
+<link rel="publisher" href="lucas1000001">
+    
+
+    
+        <link rel="alternate" href="/rss2.xml" title="lucasmatt.com" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17281106-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">lucasmatt.com</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">Matthew Lucas</h2>
+            <h3 id="title">Software Developer &amp; General Nerd</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Cardiff, UK</span>
+            <a id="follow" target="_blank" href="https://github.com/lucas-matt/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                12
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                20
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/lucas-matt" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://twitter.com/notmattlucas" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/rss2.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-microservice-mtg-2" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Microservices Part 2: Breaking Up That Monolith
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/07/31/microservice-mtg-2/">
+            <time datetime="2017-07-31T00:00:00.000Z" itemprop="datePublished">2017-07-31</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Architecture/">Architecture</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/microservices/">microservices</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/images/microservice-mtg-2/chop.jpg" alt=""></p>
+<div style="text-align: right"><sub><sup><a href="https://www.flickr.com/photos/nothing/5150721/" target="_blank" rel="noopener">“axe”</a> (<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank" rel="noopener">CC BY-NC 2.0</a>) by <a href="https://www.flickr.com/people/nothing/" target="_blank" rel="noopener">nothing</a></sup></sub></div>
+
+<hr>
+<p><em>This post is part of a larger series on the challenges commonly encountered whilst adapting and running a microservice style architecture. For further entries in this series please check out the following links</em>:</p>
+<ul>
+<li><em><a href="/2017/07/17/microservice-mtg-1/" title="Part 1: Introduction">Part 1: Introduction</a></em></li>
+<li><em><a href="/2017/07/31/microservice-mtg-2/" title="Part 2: Breaking Up That Monolith">Part 2: Breaking Up That Monolith</a></em></li>
+<li>Part 3: Communication &amp; Evolution</li>
+<li>Part 4: Organization &amp; Standardization</li>
+<li>Part 5: Preparing to Fail</li>
+</ul>
+<hr>
+<p>One of the most important problems you’ll encounter whilst developing and evolving a microservice architecture is that of dividing up an existing monolith or domain into a number of well defined and decoupled entities.</p>
+<p>So how can we divide and conquer in a sensible manner? First let’s look at one of the approaches taken by Domain Driven Design - specifically that of <em>Bounded Contexts</em>.</p>
+<h1 id="Bounded-Context"><a href="#Bounded-Context" class="headerlink" title="Bounded Context"></a>Bounded Context</h1><p>When developing any application you spend much of your time modeling the real world that it is designed to serve. The terminology that emerges out of this process generally becomes accepted across the development team as a whole, forming the unified domain model for your business. These same concepts get encoded as objects with various states and behaviors inside your application.</p>
+<p>However, once the application reaches a certain size it becomes increasingly difficult to stretch these models to cover all aspects of the business domain. For example, an ‘account’ will likely mean something very different to the billing department than one geared towards managing security. This can lead to a confusion of responsibilities within the model, and whilst teams will generally develop using the same terminology in reality they actually mean very different things.</p>
+<p>A solution proposed by the <a href="https://www.amazon.co.uk/Domain-driven-Design-Tackling-Complexity-Software/dp/0321125215" target="_blank" rel="noopener">Domain Driven Design</a> methodology is to divide up our unified model. This approach improves upon the above by chopping these conflicting concerns into a number of separate areas - each a bounded context. This allows for coherent discussion and clear modeling to take place within the bounds of a context, adhering more closely to the single responsibility principle. It also allows us to map out the relationships between each bounded context so that the interactions between them are more clearly defined.</p>
+<p>To continue our ‘account’ example, we would split both ‘billing’ and ‘security’ into different bounded contexts. We are then able to reason about the concerns of the model separately - the billing team concerning themselves more with payments, whilst security with any rights or permissions given to an account.</p>
+<p><img src="/images/microservice-mtg-2/bounded-context.png" alt="Bounded Context Example"></p>
+<p>It follows from this, that the way we breakup our application into services corresponds very naturally to the bounded contexts we define. Taking this approach allows us to reduce the amount of knowledge that any one team has to keep in mind, as the focus only has to be within a specific context. This also leads to more cleanly separated entities, which should reduce external dependencies and simplify over-complicated chatter.</p>
+<p>In short, a service should correspond to a single business domain, and not cross boundaries.</p>
+<h1 id="Things-that-Change-Together-Stay-Together"><a href="#Things-that-Change-Together-Stay-Together" class="headerlink" title="Things that Change Together Stay Together"></a>Things that Change Together Stay Together</h1><p>The ability to separate business concerns into neat little packages that can be managed and worked on separately is what enables all that <em>dividing</em> to actually <em>conquer</em> your monster scalability problem. Let’s quickly review two fairly simple but fundamental concepts of good software design:</p>
+<blockquote><p><strong>Cohesion</strong> refers to the degree to which the elements inside a module belong together. Thus, cohesion measures the strength of relationship between pieces of functionality within a given module. For example, in highly cohesive systems functionality is strongly related.</p>
+<footer><strong>Wikipedia</strong><cite><a href="https://en.wikipedia.org/wiki/Cohesion_(computer_science)" target="_blank" rel="noopener">en.wikipedia.org/wiki/Cohesion_(computer_science)</a></cite></footer></blockquote>
+<blockquote><p><strong>Coupling</strong> is the degree of interdependence between software modules; a measure of how closely connected two routines or modules are; the strength of the relationships between modules.</p>
+<footer><strong>Wikipedia</strong><cite><a href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)" target="_blank" rel="noopener">en.wikipedia.org/wiki/Coupling_(computer_programming)</a></cite></footer></blockquote>
+<p>After revisiting these concepts it becomes clearer that microservices should be highly cohesive but loosely coupled. Concepts and functionality that are strongly related need to be kept within the bounds of the same service. Conversely, more weakly related concepts should tend to exist within separate modules.</p>
+<p>An architecture that keeps correlated concerns together and pushes unrelated concepts apart allows for more robust development and deployment strategies. Due to this loose coupling of components, the impacts of one service on another should be simplified to allow for both parallel development (with fewer blocking elements between teams) and an independent deployment lifecycle - i.e. avoiding the need to orchestrate delivery between whole suites of services.</p>
+<p>If you find that the addition of a feature to your application requires a tough co-ordination effort, then you should consider whether your microservices really are cohesive and loosely coupled, or if abstractions and business logic are crossing several boundaries. If several services are always changing in step with one another then the question really is whether they’re partitioned well-enough? If the answer seems to be no, then it’s time to start merging and refactoring those components to achieve a smarter separation.</p>
+<h1 id="Strangler-Pattern"><a href="#Strangler-Pattern" class="headerlink" title="Strangler Pattern"></a>Strangler Pattern</h1><p><img src="/images/microservice-mtg-2/strangler-real.jpg" alt=""></p>
+<div style="text-align: right"><sub><sup><a href="https://www.flickr.com/photos/dany13/30109648515/" target="_blank" rel="noopener">“IMG_9322/Ile Maurice/Trou Aux Biches/Big”</a> (<a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>) by <a href="https://www.flickr.com/people/dany13/" target="_blank" rel="noopener">dany13</a></sup></sub></div>
+
+<p>It’s very rare that a greenfield project lands in your lap. Unfortunately for us developers most of our days are spent maintaining and evolving existing systems. This is definitely something that microservices (done well) can help you tackle more easily in future, but let’s come back to today’s reality. How we can sensibly refactor an existing ball-of-mud application into a more managable architecture?</p>
+<h2 id="Beware-the-Big-Rewrite"><a href="#Beware-the-Big-Rewrite" class="headerlink" title="Beware the Big Rewrite"></a>Beware the Big Rewrite</h2><p>After decades of high profile failures it has generally become a natural intuition of software professionals to avoid “The Big Rewrite”, but it’s worth a cautionary mention anyhow. </p>
+<p><em>Second System Syndrome</em> refers to the common outcome of replacing a profitable, but flawed, system with a complete rewrite that generally misses much of the point of what made the original system successful in the first place.</p>
+<blockquote><p>When it seems to be working well, designers turn their attention to a more elaborate second system, which is often bloated and grandiose and fails due to its over-ambitious design. In the meantime, the first system may also fail because it was abandoned and not continually refined.</p>
+<footer><strong>Mythical Man Month</strong><cite><a href="https://www.goodreads.com/book/show/13629.The_Mythical_Man_Month" target="_blank" rel="noopener">www.goodreads.com/book/show/13629.The_Mythical_Man_Month</a></cite></footer></blockquote>
+<h2 id="What-is-the-‘Strangler-Pattern’"><a href="#What-is-the-‘Strangler-Pattern’" class="headerlink" title="What is the ‘Strangler Pattern’?"></a>What is the ‘Strangler Pattern’?</h2><p>The Strangler Pattern is a method of slowly wrapping and replacing an existing system, usually a monolith, in a slow and methodical fashion. It is named after the strangler fig vines found in tropical climates. These vines slowly grow upon an existing tree, eventually covering (and effectively replacing) the host.</p>
+<p>This same pattern can be applied in evolving a piece of software. One by one, each part of the application (potentially identified by a bounded context) is refactored into a new service and spun out on its own. A façade provides the single entry point to your API disguising those parts of the app that have been migrated vs those which are still waiting in line for attention. </p>
+<img src="/images/microservice-mtg-2/strangler.jpg" width="400" title="Stranger Pattern">
+<p>This iterative process gives us many benefits, including:</p>
+<ul>
+<li>Keeping each refactoring managable due to its small, well defined, context</li>
+<li>Constant validation of the new functionality vs the old in a real-world, production, scenario</li>
+<li>Ability to handle failure more gracefully due to a rollback being as simple as redirecting the façade’s requests</li>
+</ul>
+<h1 id="Next-Time"><a href="#Next-Time" class="headerlink" title="Next Time"></a>Next Time</h1><p>Next time, we’ll look into the communication patterns available to connect your microservices together in a maintainable and robust way. </p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><a href="http://blog.xebia.com/microservices-architecture-principle-3-small-bounded-contexts-over-one-comprehensive-model/" target="_blank" rel="noopener">Microservices Architecture Principle #3: small bounded contexts over one comprehensive model</a></li>
+<li><a href="https://martinfowler.com/bliki/BoundedContext.html" target="_blank" rel="noopener">Bounded Context</a></li>
+<li><a href="http://blog.sapiensworks.com/post/2012/04/17/DDD-The-Bounded-Context-Explained.aspx" target="_blank" rel="noopener">DDD - The Bounded Context Explained</a></li>
+<li><a href="https://www.amazon.co.uk/Domain-driven-Design-Tackling-Complexity-Software/dp/0321125215" target="_blank" rel="noopener">Domain Driven Design</a></li>
+<li><a href="https://www.martinfowler.com/bliki/StranglerApplication.html" target="_blank" rel="noopener">Martin Fowler - Strangler Application</a></li>
+<li><a href="https://www.ibm.com/developerworks/cloud/library/cl-strangler-application-pattern-microservices-apps-trs/index.html" target="_blank" rel="noopener">Apply the Strangler Application pattern to microservices applications</a></li>
+<li><a href="https://www.amazon.co.uk/Mythical-Man-month-Essays-Software-Engineering/dp/0201835959/ref=sr_1_3?s=books&amp;ie=UTF8&amp;qid=1501257288&amp;sr=1-3&amp;keywords=mythical+man+month" target="_blank" rel="noopener">Mythical Man Month</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/strangler" target="_blank" rel="noopener">Strangler Pattern</a></li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://lucasmatt.com/2017/07/31/microservice-mtg-2/" data-id="cjhz4jghn000ig5r178vw6w6o" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://lucasmatt.com/2017/07/31/microservice-mtg-2/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://lucasmatt.com/2017/07/31/microservice-mtg-2/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/08/13/python-async/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Python 3 Asyncio
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/07/17/microservice-mtg-1/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Microservices (Mind the Gap) Part 1: An Introduction</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/13/testing-nightmares/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/nightmare.jpg)" alt="6(66) Nightmares of Microservice Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Testing/">Testing</a></p>
+                            <p class="item-title"><a href="/2018/03/13/testing-nightmares/" class="title">6(66) Nightmares of Microservice Testing</a></p>
+                            <p class="item-date"><time datetime="2018-03-13T19:35:18.000Z" itemprop="datePublished">2018-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/17/bits-2017-02-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/flat_bits_thumb.jpg)" alt="[Bits 1] Year of the Dog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/bits/">bits</a></p>
+                            <p class="item-title"><a href="/2018/02/17/bits-2017-02-18/" class="title">[Bits 1] Year of the Dog</a></p>
+                            <p class="item-date"><time datetime="2018-02-17T00:00:00.000Z" itemprop="datePublished">2018-02-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/01/radar-jan-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/radar-jan-18/firework.jpg)" alt="Technology Radar Jan &#39;18" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech-Radar/">Tech Radar</a></p>
+                            <p class="item-title"><a href="/2018/01/01/radar-jan-18/" class="title">Technology Radar Jan &#39;18</a></p>
+                            <p class="item-date"><time datetime="2018-01-01T00:00:00.000Z" itemprop="datePublished">2018-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/22/spring-microservices/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring-microservices/spring.jpg)" alt="Spring Cloud in 10 Bad Cartoons" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/22/spring-microservices/" class="title">Spring Cloud in 10 Bad Cartoons</a></p>
+                            <p class="item-date"><time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/13/python-async/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/python-async/python.jpg)" alt="Python 3 Asyncio" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/13/python-async/" class="title">Python 3 Asyncio</a></p>
+                            <p class="item-date"><time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Science/">Data Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech-Radar/">Tech Radar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thoughts/">Thoughts</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bits/">bits</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/augeas/" style="font-size: 10px;">augeas</a> <a href="/tags/bits/" style="font-size: 10px;">bits</a> <a href="/tags/data-science/" style="font-size: 10px;">data science</a> <a href="/tags/development/" style="font-size: 10px;">development</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/growth/" style="font-size: 10px;">growth</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/microservices/" style="font-size: 20px;">microservices</a> <a href="/tags/production/" style="font-size: 10px;">production</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/radar/" style="font-size: 10px;">radar</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/statistics/" style="font-size: 15px;">statistics</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a> <a href="/tags/thinking/" style="font-size: 15px;">thinking</a> <a href="/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.linkedin.com/in/lucas-matt/">linkedin</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://twitter.com/NotMattLucas">twitter</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/lucas-matt">github</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Matt Lucas<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://lucasmatt.com/2017/07/31/microservice-mtg-2/';
+        
+        this.page.identifier = 'microservice-mtg-2';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'lucasmatt.com' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Python 3 Asyncio | lucasmatt.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="A quick introduction to Python programming with async/await">
+<meta name="keywords" content="python,async">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 3 Asyncio">
+<meta property="og:url" content="http://lucasmatt.com/2017/08/13/python-async/index.html">
+<meta property="og:site_name" content="lucasmatt.com">
+<meta property="og:description" content="A quick introduction to Python programming with async/await">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://lucasmatt.com/images/python-async/python.jpg">
+<meta property="og:updated_time" content="2018-05-27T15:07:31.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 3 Asyncio">
+<meta name="twitter:description" content="A quick introduction to Python programming with async/await">
+<meta name="twitter:image" content="http://lucasmatt.com/images/python-async/python.jpg">
+<meta name="twitter:creator" content="@notmattlucas">
+<link rel="publisher" href="lucas1000001">
+    
+
+    
+        <link rel="alternate" href="/rss2.xml" title="lucasmatt.com" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17281106-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">lucasmatt.com</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">Matthew Lucas</h2>
+            <h3 id="title">Software Developer &amp; General Nerd</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Cardiff, UK</span>
+            <a id="follow" target="_blank" href="https://github.com/lucas-matt/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                12
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                20
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/lucas-matt" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://twitter.com/notmattlucas" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/rss2.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-python-async" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Python 3 Asyncio
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/08/13/python-async/">
+            <time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Programming/">Programming</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/async/">async</a>, <a class="tag-link" href="/tags/python/">python</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/images/python-async/python.jpg" alt=""></p>
+<div style="text-align: right"><sub><sup><a href="https://www.flickr.com/photos/29880452@N05/2819784303/" target="_blank" rel="noopener">“Carpet Python”</a> (<a href="https://creativecommons.org/licenses/by-nc/2.0/" target="_blank" rel="noopener">CC BY-NC 2.0</a>) by <a href="https://www.flickr.com/people/29880452@N05/" target="_blank" rel="noopener">exhibitionwhitmore</a></sup></sub></div>
+
+<hr>
+<p>Asynchronous programming has become a core practice over the last decade. <em>One thread per request</em> architectures have disappeared for the most part and have been replaced by non-blocking functionality, whether a <em>Servlet 3</em> style @Suspend, NIO actor support via <em>Akka</em> or coding at a lower level against the <em>Netty</em> framework. Of course there are many advantages to asynchronous programming, most centered around resource efficiency and avoiding CPU context switches - but that’s a topic that has already been very well covered many times over, so I’ll avoid a detour right now.</p>
+<p>Python has had some great asynchronous options for a long time. <em>Gevent</em>, <em>Twisted</em> and <em>Tornado</em> have all had, and continue to have, a great community to support them. Each being a standalone library they have a certain opinionated approach that is somewhat incompatible with the others. For example, <em>Tornado</em> is specifically targeted at web application programming whereas <em>Gevent</em> and <em>Twisted</em> are more general concurrency libraries for interleaving non-blocking ‘threads’.</p>
+<p>Enter <code>async</code>/<code>await</code>. Python 3 seems to finally be gaining the traction it deserves to help it overthrow the long standing Python 2 dominance. One major evolution that has been added fairly recently (late 2015) is the native asyncio library that gives us coroutine support directly within the core language.</p>
+<p>Let’s spend a little time checking out examples of this exciting new feature, but first - what the heck are coroutines?</p>
+<h1 id="Programming-with-Coroutines"><a href="#Programming-with-Coroutines" class="headerlink" title="Programming with Coroutines"></a>Programming with Coroutines</h1><p>So what are coroutines? They’re not something I’d ever come across in the Java world, and they take a little getting used to. Here’s the formal definition:</p>
+<blockquote><p>Coroutines are computer program components that generalize subroutines for non-preemptive multitasking, by allowing multiple entry points for suspending and resuming execution at certain locations. Coroutines are well-suited for implementing more familiar program components such as cooperative tasks, exceptions, event loops, iterators, infinite lists and pipes.</p>
+<footer><strong>Wikipedia</strong><cite><a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="noopener">en.wikipedia.org/wiki/Coroutine</a></cite></footer></blockquote>
+<p>Umm, … so … did that make sense? I gather that it’s something about pausing and resuming execution, but that’s about it.</p>
+<p>Let’s try a real world analogy - picking up some dinner from your favourite takeaway.</p>
+<p><img src="/images/python-async/takeaway.jpg" alt=""></p>
+<div style="text-align: right"><sub><sup><a href="https://www.flickr.com/photos/126337928@N05/23964405150/" target="_blank" rel="noopener">“Takeaway”</a> (<a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>) by <a href="https://www.flickr.com/people/126337928@N05/" target="_blank" rel="noopener">Dai Lygad</a></sup></sub></div>
+
+<p>Arriving at the takeaway you politely join the queue of customers (the coroutines) waiting in line to get served by the cashier. For simplicity’s sake, let’s assume there is only one cashier able to serve you. This person represents the main process, or event loop.</p>
+<p>Each customer is served by the cashier one at a time. He/she takes your order, money, and gives you a little ticket representing the meal being prepared behind the scenes. The process of cooking your food represents external I/O, such as a network call or filesystem access.</p>
+<p>Now, in a blocking I/O world, you and the cashier would awkwardly eyeball each other for the full length of time it took to cook your food - the other customers looking on in frustration. By using coroutines, rather than keeping the poor cashier occupied, you put your interaction on hold and go wait quietly in the corner so that another customer can be served in the meantime. When your food is ready to go the cashier is notified by the kitchen and resumes your interaction to complete the process.</p>
+<p>In a similar way coroutines yield their control of the main thread when they encounter a blocking operation and then resume execution once that operation completes. This allows for the core process to remain active as long as there is valuable work to be done, rather than blocking important tasks whilst waiting on external factors.</p>
+<p>Now for some specific examples.</p>
+<h1 id="Hello-World-of-Asyncio"><a href="#Hello-World-of-Asyncio" class="headerlink" title="Hello World of Asyncio"></a>Hello World of Asyncio</h1><p>Let’s start off with the obligatory ‘hello world’.</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line">async def hey():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"Hello World!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">loop</span> = asyncio.get_event_loop()</span><br><span class="line"><span class="built_in">loop</span>.run_until_complete(hey())</span><br><span class="line"><span class="built_in">loop</span>.<span class="built_in">close</span>()</span><br></pre></td></tr></table></figure>
+<p>The function itself is pretty mundane although it is marked with the <code>async</code> keyword to denote its nature. To get access to the event loop to execute this special type of routine, we grab it from asyncio and ask it to run our coroutine to completion.</p>
+<p>The example below is slightly more interesting, showing how coroutines can interact with and utilize one another. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">excl</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">world</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"World"</span> + <span class="keyword">await</span> excl()</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"Hello "</span> + <span class="keyword">await</span> world())</span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(hello())</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
+<p>Here we are introduced to the <code>await</code> keyword. This allows one coroutine to yield its program flow until we get the result from another asynchronous operation, at which point we can resume operation. Rather simply, here we are just chaining the invocation and resolution of a series of coroutines.</p>
+<h1 id="Fibonacci-Time-and-Async-Decorators"><a href="#Fibonacci-Time-and-Async-Decorators" class="headerlink" title="Fibonacci Time and Async Decorators"></a>Fibonacci Time and Async Decorators</h1><p>Now for something a bit meatier - recursion and decoration!</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">memo</span><span class="params">(fn)</span>:</span></span><br><span class="line">    cache = &#123;&#125;</span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">wrap</span><span class="params">(n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n <span class="keyword">in</span> cache:</span><br><span class="line">            print(<span class="string">"found %s in cache"</span> % (n))</span><br><span class="line">            <span class="keyword">return</span> cache[n]</span><br><span class="line">        res = <span class="keyword">await</span> fn(n)</span><br><span class="line">        print(<span class="string">"calculated %s"</span> % (n))</span><br><span class="line">        cache[n]= res</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> wrap</span><br><span class="line"></span><br><span class="line"><span class="meta">@memo</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fibn</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> fibn(n<span class="number">-2</span>) + <span class="keyword">await</span> fibn(n<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">c = loop.run_until_complete(asyncio.gather(fibn(<span class="number">4</span>), fibn(<span class="number">4</span>), fibn(<span class="number">4</span>)))</span><br><span class="line">print(c)</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
+<p>First, take a look at the <code>fibn</code> function. This is a good old recursive fibonacci, however the delegate calls are made asynchronously. Of course, this gives no real benefit, but does prove we can invoke coroutines in a recursive fashion. </p>
+<p>More interestingly we have implemented a memoizing decorator that will cache the result of an asynchronous call. We have to be careful to declare the wrapper function (as created within the decorator) as <code>async</code> so that we can <code>await</code> completion of the decorated function. </p>
+<h1 id="But-Who-Cares-About-Async-Fibonacci"><a href="#But-Who-Cares-About-Async-Fibonacci" class="headerlink" title="But Who Cares About Async Fibonacci!?"></a>But Who Cares About Async Fibonacci!?</h1><p>Playing with these toy functions is all very well, but what bearing does this have on helping us solve real world problems?</p>
+<p>TBH, the list of libraries supporting <code>async</code>/<code>await</code> functionality right now (at least at the time of writing) seems to be fairly limited. Obviously the intention is that over time this will become a much more richly supported and standardized way of writing asynchronous code with the core python language. Although, having said that, as long as you’re using fairly common technology you’ll likely find at least one driver that supports this approach.</p>
+<p>In this final example we can see how easy it is to wire up an asynchronous application end-to-end - a REST service that reads and writes asynchronously to mongodb.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> aiohttp <span class="keyword">import</span> web</span><br><span class="line"><span class="keyword">from</span> motor.motor_asyncio <span class="keyword">import</span> AsyncIOMotorClient</span><br><span class="line"></span><br><span class="line">client = AsyncIOMotorClient(<span class="string">'mongodb://mongodb:27017'</span>)</span><br><span class="line">db = client.demo</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">retrieve</span><span class="params">(req)</span>:</span></span><br><span class="line">    id = req.match_info.get(<span class="string">'id'</span>)</span><br><span class="line">    result = <span class="keyword">await</span> db.stuff.find_one(&#123;<span class="string">'_id'</span>: id&#125;)</span><br><span class="line">    <span class="keyword">if</span> result:</span><br><span class="line">        <span class="keyword">return</span> web.Response(body=json.dumps(result))</span><br><span class="line">    <span class="keyword">return</span> web.Response(status=<span class="number">404</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(req)</span>:</span></span><br><span class="line">    id = req.match_info.get(<span class="string">'id'</span>)</span><br><span class="line">    json = <span class="keyword">await</span> req.json()</span><br><span class="line">    json[<span class="string">'_id'</span>] = id</span><br><span class="line">    result = <span class="keyword">await</span> db.stuff.replace_one(&#123;<span class="string">'_id'</span>: id&#125;, json, upsert=<span class="keyword">True</span>)</span><br><span class="line">    status = <span class="number">200</span> <span class="keyword">if</span> result.matched_count &gt;= <span class="number">1</span> <span class="keyword">else</span> <span class="number">201</span></span><br><span class="line">    <span class="keyword">return</span> web.Response(status=status)</span><br><span class="line"></span><br><span class="line">app = web.Application()</span><br><span class="line">app.router.add_get(<span class="string">'/stuff/&#123;id&#125;'</span>, retrieve)</span><br><span class="line">app.router.add_put(<span class="string">'/stuff/&#123;id&#125;'</span>, save)</span><br><span class="line">web.run_app(app)</span><br></pre></td></tr></table></figure>
+<p>There are a few notable points in this small application.</p>
+<ul>
+<li><code>[line 8, 15]</code> First we have the handling of requests themselves. Our handlers are specified as coroutines so that the HTTP server doesn’t have to block a thread whilst waiting for the end-to-end response to complete.</li>
+<li><code>[line 17]</code> Even trivial I/O, such as reading the request payload from the socket, is handled in an efficient way.</li>
+<li><code>[line 10, 19]</code> As expected, any database access is handled in a non-blocking fashion.</li>
+</ul>
+<p>So pretty simple stuff, but it all seems to fit together in a sensible and consistent manner. It’ll be interesting to see how this feature of python evolves both within the language and across the ecosystem over the next few years.</p>
+<p>Happy non-blocking!</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://lucasmatt.com/2017/08/13/python-async/" data-id="cjhz4jgho000jg5r1io400vui" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://lucasmatt.com/2017/08/13/python-async/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://lucasmatt.com/2017/08/13/python-async/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/08/22/spring-microservices/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Spring Cloud in 10 Bad Cartoons
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/07/31/microservice-mtg-2/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Microservices Part 2: Breaking Up That Monolith</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/13/testing-nightmares/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/nightmare.jpg)" alt="6(66) Nightmares of Microservice Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Testing/">Testing</a></p>
+                            <p class="item-title"><a href="/2018/03/13/testing-nightmares/" class="title">6(66) Nightmares of Microservice Testing</a></p>
+                            <p class="item-date"><time datetime="2018-03-13T19:35:18.000Z" itemprop="datePublished">2018-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/17/bits-2017-02-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/flat_bits_thumb.jpg)" alt="[Bits 1] Year of the Dog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/bits/">bits</a></p>
+                            <p class="item-title"><a href="/2018/02/17/bits-2017-02-18/" class="title">[Bits 1] Year of the Dog</a></p>
+                            <p class="item-date"><time datetime="2018-02-17T00:00:00.000Z" itemprop="datePublished">2018-02-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/01/radar-jan-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/radar-jan-18/firework.jpg)" alt="Technology Radar Jan &#39;18" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech-Radar/">Tech Radar</a></p>
+                            <p class="item-title"><a href="/2018/01/01/radar-jan-18/" class="title">Technology Radar Jan &#39;18</a></p>
+                            <p class="item-date"><time datetime="2018-01-01T00:00:00.000Z" itemprop="datePublished">2018-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/22/spring-microservices/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring-microservices/spring.jpg)" alt="Spring Cloud in 10 Bad Cartoons" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/22/spring-microservices/" class="title">Spring Cloud in 10 Bad Cartoons</a></p>
+                            <p class="item-date"><time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/13/python-async/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/python-async/python.jpg)" alt="Python 3 Asyncio" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/13/python-async/" class="title">Python 3 Asyncio</a></p>
+                            <p class="item-date"><time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Science/">Data Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech-Radar/">Tech Radar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thoughts/">Thoughts</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bits/">bits</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/augeas/" style="font-size: 10px;">augeas</a> <a href="/tags/bits/" style="font-size: 10px;">bits</a> <a href="/tags/data-science/" style="font-size: 10px;">data science</a> <a href="/tags/development/" style="font-size: 10px;">development</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/growth/" style="font-size: 10px;">growth</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/microservices/" style="font-size: 20px;">microservices</a> <a href="/tags/production/" style="font-size: 10px;">production</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/radar/" style="font-size: 10px;">radar</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/statistics/" style="font-size: 15px;">statistics</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a> <a href="/tags/thinking/" style="font-size: 15px;">thinking</a> <a href="/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.linkedin.com/in/lucas-matt/">linkedin</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://twitter.com/NotMattLucas">twitter</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/lucas-matt">github</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Matt Lucas<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://lucasmatt.com/2017/08/13/python-async/';
+        
+        this.page.identifier = 'python-async';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'lucasmatt.com' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

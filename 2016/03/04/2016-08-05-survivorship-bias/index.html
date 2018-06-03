@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Survivorship Bias and Negotiating Tech Hype | lucasmatt.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="The role of survivorship bias and web-scale/high-performance envy when software developers choose new tech.">
+<meta name="keywords" content="statistics,thinking,development">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Survivorship Bias and Negotiating Tech Hype">
+<meta property="og:url" content="http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/index.html">
+<meta property="og:site_name" content="lucasmatt.com">
+<meta property="og:description" content="The role of survivorship bias and web-scale/high-performance envy when software developers choose new tech.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://lucasmatt.com/images/whaam.jpg">
+<meta property="og:updated_time" content="2018-05-27T15:07:31.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Survivorship Bias and Negotiating Tech Hype">
+<meta name="twitter:description" content="The role of survivorship bias and web-scale/high-performance envy when software developers choose new tech.">
+<meta name="twitter:image" content="http://lucasmatt.com/images/whaam.jpg">
+<meta name="twitter:creator" content="@notmattlucas">
+<link rel="publisher" href="lucas1000001">
+    
+
+    
+        <link rel="alternate" href="/rss2.xml" title="lucasmatt.com" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17281106-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">lucasmatt.com</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">Matthew Lucas</h2>
+            <h3 id="title">Software Developer &amp; General Nerd</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Cardiff, UK</span>
+            <a id="follow" target="_blank" href="https://github.com/lucas-matt/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                12
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                20
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/lucas-matt" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://twitter.com/notmattlucas" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/rss2.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-2016-08-05-survivorship-bias" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Survivorship Bias and Negotiating Tech Hype
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2016/03/04/2016-08-05-survivorship-bias/">
+            <time datetime="2016-03-04T00:00:00.000Z" itemprop="datePublished">2016-03-04</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Thoughts/">Thoughts</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/development/">development</a>, <a class="tag-link" href="/tags/statistics/">statistics</a>, <a class="tag-link" href="/tags/thinking/">thinking</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/images/whaam.jpg" alt=""></p>
+<h2 id="Bombers-with-Bullet-Holes"><a href="#Bombers-with-Bullet-Holes" class="headerlink" title="Bombers with Bullet Holes"></a>Bombers with Bullet Holes</h2><p>During the dark days of World War II the American military presented<br>their Statistical Research Group with a problem. They wanted to add additional armour to<br>their bombers, but clearly couldn’t put the armour everywhere because<br>of the additional weight it would add to the planes. The group was<br>tasked with working out how much armor to allocate to the various regions<br>of the aircraft to maximize defense whilst minimizing any effect on<br>fuel consumption and agility.</p>
+<p>Engineers inspected a number of bombers that had seen some action. These<br>planes had bullet holes that were distributed mainly across the wings<br>and body. Comparatively the engines and cockpit had much less<br>damage. This had lead the commanders to make the obvious, but foolish, conclusion that<br>they should enhance armour on areas that had been hit most<br>frequently, namely the fuselage and wings. </p>
+<p>One of the many geniuses of the group, Abraham Wald, realised that they<br>were looking at the problem from completely the wrong angle. It’s not<br>that planes weren’t being hit as frequently on the engines and cockpit,<br>but rather those that had been never returned to tell the tale! These<br>were the parts of the airplane that needed enhancement, not the areas<br>that could take a battering and still survive.</p>
+<h2 id="Survivorship-Bias"><a href="#Survivorship-Bias" class="headerlink" title="Survivorship Bias"></a>Survivorship Bias</h2><p>How do you really evaluate a success when the failures are nowhere<br>to be seen?</p>
+<p><img src="/images/survive.jpg" alt="Survive"></p>
+<p>Countless articles, books and documentaries have been produced about<br>successful people and how to capture the principles of their success to<br>improve your own fortune.</p>
+<p>Consider Steve Jobs - frequently heralded as a one of the greatest<br>geniuses of our time - how do we emulate his success? Clearly dropping<br>out of college, spending time at meditation retreats and starting a<br>business from your parent’s garage is the way to go. But what about<br>the hundreds of thousands of budding Apple founders for whom this<br>strategy never quite worked out?</p>
+<p>Books aren’t usually written about failed enterprises,<br>just the rare, billion-dollar, success stories.</p>
+<h2 id="Choosing-Tech-Thoughtfully"><a href="#Choosing-Tech-Thoughtfully" class="headerlink" title="Choosing Tech Thoughtfully"></a>Choosing Tech Thoughtfully</h2><p>As well as being responsible for the latest diet fads and the exaggerated<br>performance of mutual funds, we can see this<br>bias lurking in certain corners of the software development world.</p>
+<p><img src="/images/homer_thought.jpg" alt="Thinking"></p>
+<p>How often do you see a wave of enthusiasm for the next high<br>throughput NoSQL<br>system or a push for complicated elastic scaling technology? Companies<br>such as Twitter and Netflix present their wild successes but we don’t usually see qualifications on the size and<br>scale of the teams implementing these solutions.</p>
+<p>It’s worth keeping in<br>mind the potential for a mass of silent teams. Struggling under the<br>weight of overpowered, over-engineered, “web-scale” technologies<br>inspired by the industry front-runners. Most of us mere mortals just don’t<br>have the resources, skills, or (most importantly) even the need for<br>such high class deployments. Most of the time it’s just better to keep<br>things simple and known.</p>
+<p>Similarly, businesses push on with “Big Data” for fear of missing<br>out, but without any real understanding of what they really<br>need. Solutions are commissioned that aspire to the heights of Facebook and Google<br>whilst in reality they fumble for a real business-value providing use-case.</p>
+<p>Don’t get me wrong, I’m 100% all for learning new paradigms, languages<br>and frameworks. This is just a reminder, as much to myself as anyone<br>else, to take a moment to think past the biases that may lead us to<br>make some regrettable, albeit well-intentioned and over-excited, choices.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="https://youarenotsosmart.com/2013/05/23/survivorship-bias/" target="_blank" rel="noopener">You Are Not So<br>Smart</a></li>
+<li><a href="https://www.amazon.co.uk/dp/071819604X" target="_blank" rel="noopener">How Not to Be Wrong: The Hidden Maths of Everyday Life</a></li>
+<li><a href="https://www.thoughtworks.com/radar/techniques/high-performance-envy-web-scale-envy" target="_blank" rel="noopener">High performance envy/web scale envy</a></li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/" data-id="cjhz4jghc0009g5r1kg2tija0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Zero Downtime Upgrade Problems and Patterns
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/06/01/2015-06-01-augeas-the-missing-manual/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Augeas the Missing Manual</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/13/testing-nightmares/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/nightmare.jpg)" alt="6(66) Nightmares of Microservice Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Testing/">Testing</a></p>
+                            <p class="item-title"><a href="/2018/03/13/testing-nightmares/" class="title">6(66) Nightmares of Microservice Testing</a></p>
+                            <p class="item-date"><time datetime="2018-03-13T19:35:18.000Z" itemprop="datePublished">2018-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/17/bits-2017-02-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/flat_bits_thumb.jpg)" alt="[Bits 1] Year of the Dog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/bits/">bits</a></p>
+                            <p class="item-title"><a href="/2018/02/17/bits-2017-02-18/" class="title">[Bits 1] Year of the Dog</a></p>
+                            <p class="item-date"><time datetime="2018-02-17T00:00:00.000Z" itemprop="datePublished">2018-02-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/01/radar-jan-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/radar-jan-18/firework.jpg)" alt="Technology Radar Jan &#39;18" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech-Radar/">Tech Radar</a></p>
+                            <p class="item-title"><a href="/2018/01/01/radar-jan-18/" class="title">Technology Radar Jan &#39;18</a></p>
+                            <p class="item-date"><time datetime="2018-01-01T00:00:00.000Z" itemprop="datePublished">2018-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/22/spring-microservices/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring-microservices/spring.jpg)" alt="Spring Cloud in 10 Bad Cartoons" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/22/spring-microservices/" class="title">Spring Cloud in 10 Bad Cartoons</a></p>
+                            <p class="item-date"><time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/13/python-async/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/python-async/python.jpg)" alt="Python 3 Asyncio" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/13/python-async/" class="title">Python 3 Asyncio</a></p>
+                            <p class="item-date"><time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Science/">Data Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech-Radar/">Tech Radar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thoughts/">Thoughts</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bits/">bits</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/augeas/" style="font-size: 10px;">augeas</a> <a href="/tags/bits/" style="font-size: 10px;">bits</a> <a href="/tags/data-science/" style="font-size: 10px;">data science</a> <a href="/tags/development/" style="font-size: 10px;">development</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/growth/" style="font-size: 10px;">growth</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/microservices/" style="font-size: 20px;">microservices</a> <a href="/tags/production/" style="font-size: 10px;">production</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/radar/" style="font-size: 10px;">radar</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/statistics/" style="font-size: 15px;">statistics</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a> <a href="/tags/thinking/" style="font-size: 15px;">thinking</a> <a href="/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.linkedin.com/in/lucas-matt/">linkedin</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://twitter.com/NotMattLucas">twitter</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/lucas-matt">github</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Matt Lucas<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://lucasmatt.com/2016/03/04/2016-08-05-survivorship-bias/';
+        
+        this.page.identifier = '2016-08-05-survivorship-bias';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'lucasmatt.com' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Spring Cloud in 10 Bad Cartoons | lucasmatt.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="A quick tour of the combined Spring Cloud / Netflix OSS microservice stack through some pretty terrible drawings, inspired by John Carnell’s book Spring Microservices in Action (the subject, that is,">
+<meta name="keywords" content="microservices,spring,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud in 10 Bad Cartoons">
+<meta property="og:url" content="http://lucasmatt.com/2017/08/22/spring-microservices/index.html">
+<meta property="og:site_name" content="lucasmatt.com">
+<meta property="og:description" content="A quick tour of the combined Spring Cloud / Netflix OSS microservice stack through some pretty terrible drawings, inspired by John Carnell’s book Spring Microservices in Action (the subject, that is,">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://lucasmatt.com/images/spring-microservices/spring.jpg">
+<meta property="og:updated_time" content="2018-05-27T15:07:31.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Cloud in 10 Bad Cartoons">
+<meta name="twitter:description" content="A quick tour of the combined Spring Cloud / Netflix OSS microservice stack through some pretty terrible drawings, inspired by John Carnell’s book Spring Microservices in Action (the subject, that is,">
+<meta name="twitter:image" content="http://lucasmatt.com/images/spring-microservices/spring.jpg">
+<meta name="twitter:creator" content="@notmattlucas">
+<link rel="publisher" href="lucas1000001">
+    
+
+    
+        <link rel="alternate" href="/rss2.xml" title="lucasmatt.com" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17281106-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">lucasmatt.com</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">Matthew Lucas</h2>
+            <h3 id="title">Software Developer &amp; General Nerd</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Cardiff, UK</span>
+            <a id="follow" target="_blank" href="https://github.com/lucas-matt/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                12
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                20
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/lucas-matt" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://twitter.com/notmattlucas" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/rss2.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-spring-microservices" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Spring Cloud in 10 Bad Cartoons
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2017/08/22/spring-microservices/">
+            <time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Programming/">Programming</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/java/">java</a>, <a class="tag-link" href="/tags/microservices/">microservices</a>, <a class="tag-link" href="/tags/spring/">spring</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/images/spring-microservices/spring.jpg" alt=""></p>
+<p><em>A quick tour of the combined Spring Cloud / Netflix OSS microservice stack through some pretty terrible drawings, inspired by John Carnell’s book <a href="https://www.manning.com/books/spring-microservices-in-action" target="_blank" rel="noopener">Spring Microservices in Action</a> (the subject, that is, not the awful pictures)</em></p>
+<hr>
+<p>Building well designed applications using microservices can require a great deal of maturity. Aspects such as service discovery, load balancing and gracefully handling failure are effectively mandatory, but can be painful to implement well.</p>
+<p><a href="http://projects.spring.io/spring-cloud/" target="_blank" rel="noopener">Spring Cloud</a> pulls together a number of well worn tools that help make a number of the core patterns of distributed systems simpler to wire up and manage. More specifically this can involve technology such as Consul, Zookeeper and the Netflix OSS stack.</p>
+<p>We’ll now check out some of the patterns made available to you by utilizing Spring Cloud, and related tooling, through the medium of terrible drawings.</p>
+<h1 id="Netflix-OSS"><a href="#Netflix-OSS" class="headerlink" title="Netflix OSS"></a>Netflix OSS</h1><p>A ton of the functionality provided here is backed by the Netflix OSS stack. Service discovery, load balancing, fault tolerance and gateway routing features are all supporting by Netflix’s toolset, although the full stack does much more than this. In the picture below, I’ve marked out the specific libraries we’ll be checking out later, with a few notes as to their general purpose.</p>
+<p><img src="/images/spring-microservices/netflix.png" alt=""></p>
+<hr>
+<h1 id="Configuration-Management-with-Spring-Cloud"><a href="#Configuration-Management-with-Spring-Cloud" class="headerlink" title="Configuration Management with Spring Cloud"></a>Configuration Management with Spring Cloud</h1><p>At the tail end of the last century, NASA sent an orbiter to Mars with the intention of surveying the red planet to understand its water history and to search for the traces of evidence to suggest that life had once existed there. The spacecraft arrived, after a grueling ten month journey, only for disaster to strike and it burn up in the Martian atmosphere after flying almost 105 miles closer to the planet’s surface then intended. The reason for this, it turned out afterwards, was due to a misunderstanding between two separate development teams as to the units of force used throughout the system. On one hand, propulsion engineers at Lockheed Martin had used their standard expression of force in pounds. However, in space engineering, the commonly used units are newtons, and NASA engineers hadn’t thought to question any mismatch when integrating components. One pound of force is around 4.45 newtons, providing enough of a difference to cause the disaster.</p>
+<p>So how does this relate at all to configuration management? Well, it’s a fairly crude example of the importance of a single source of truth, and how miscommunication across components in a system can result in a catastrophic outcome. The principles at work here apply to the services within a distributed system - most specifically, in this case, related to configuration of those services, and the concept of <em>configuration drift</em>. Let’s look at a definition of this:</p>
+<blockquote><p>Configuration Drift is the phenomenon where running servers in an infrastructure become more and more different as time goes on, due to manual ad-hoc changes and updates, and general entropy.</p>
+<footer><strong>DZone</strong><cite><a href="https://dzone.com/articles/configuration-drift" target="_blank" rel="noopener">dzone.com/articles/configuration-drift</a></cite></footer></blockquote>
+<p>Instances of microservices should be totally unremarkable, and completely replaceable. Having any chance of a unique configuration being introduced to one service over others could cause unexpected issues within a production setting - and any kind of property/configuration file tied to a single instance of a service provides that chance.</p>
+<p><img src="/images/spring-microservices/kaboom.png" alt=""></p>
+<p>This is where a centralized configuration strategy can help. All services point at that single source of truth, making divergence of configuration across them much less likely. As a second bonus feature the ability to change that one piece of information to affect all dependents instantly, can streamline general management of configuration within your distributed application.</p>
+<p><img src="/images/spring-microservices/config.png" alt=""></p>
+<h1 id="Service-Discovery-with-Ribbon-amp-Eureka"><a href="#Service-Discovery-with-Ribbon-amp-Eureka" class="headerlink" title="Service Discovery with Ribbon &amp; Eureka!"></a>Service Discovery with Ribbon &amp; Eureka!</h1><p>Another important aspect of a distributed system is how you actually connect all those moving parts together in the first place! Of course, it’s easy to statically configure a set of addresses on service boot, but what if one of those endpoints disappears or becomes unhealthy?</p>
+<p>Eureka! and it’s partner, Ribbon, were designed to help solve this problem. As a service starts it registers itself with the central Eureka service. This allows any dependent service to find out who to talk to via this central point.</p>
+<p>Eureka keeps tabs on a service instance by prodding it’s health-check API to ensure that it is available and happy to serve. If an instance is found to be unavailable or reporting issues, it is removed from the working list.</p>
+<p>Ribbon keeps the client side of this arrangement simple. It is a request side library that keeps in touch with Eureka to keep track of those addresses that serve a certain function. It abstracts away the physical addresses for a location-transparent reference which we can use within our code to decouple our service from any of those upstream.</p>
+<p><img src="/images/spring-microservices/eureka.png" alt=""></p>
+<h1 id="Failing-Successfully-with-Hystrix"><a href="#Failing-Successfully-with-Hystrix" class="headerlink" title="Failing Successfully with Hystrix"></a>Failing Successfully with Hystrix</h1><p>Netflix’s Hystrix is a fault tolerance library designed to prevent cascading failures across a distributed system - a place where failure is almost certainly going to occur at some point.</p>
+<p>Application architecture is generally well enough designed to cater for large-scale failure, and by this I mean situations like a full server outage. Databases are replicated so that they can lose a cluster member and still remain unhindered. API calls are often load balanced across a number of identical instances of an application to avoid any single point of failure.</p>
+<p>However, smaller scale failure, or a downward spiral of QoS, are generally less well handled. Specifically aspects such as intermittent failure and ever-increasing latency of upstream responses are not well catered for and so requests eventually back up, and overwhelm the system.</p>
+<h2 id="Circuit-Breakers"><a href="#Circuit-Breakers" class="headerlink" title="Circuit Breakers"></a>Circuit Breakers</h2><p>A circuit breaker functions in a manner similar to its electrical counterpart. But rather than detecting an electrical surge it tries to prevent a situation where a struggling upstream service is becoming increasingly more stressed due to an overwhelming number of requests. It does this by monitoring the lifecycle of a remote service call. If the latency begins to creep up the connection is cut protecting its dependency.</p>
+<p>Once disconnected, the behaviour of the circuit breaker changes somewhat. As calls continue to enter the service to which the circuit breaker belongs, the upstream endpoint is tested until we see that good service is resumed, at which point the circuit breaker is closed again and requests are allowed to flow freely once again.</p>
+<p><img src="/images/spring-microservices/circuitbreaker.png" alt=""></p>
+<p>As you can imagine, if the circuit breaker is open the requests are unable to successfully complete. Although beneficial to the upstream service being protected, it’s not great for the client that made the request in the first place.</p>
+<p>This is where an extension of this pattern becomes useful.</p>
+<h3 id="Fallbacks"><a href="#Fallbacks" class="headerlink" title="Fallbacks"></a>Fallbacks</h3><p>Instead of just allowing the request to crash ‘n’ burn, we can fail more gracefully by providing a fallback to our incomplete API call. This can be provided by a cache, an alternative or even just plain old stubbed data. The important thing is that to an outsider it looks just like the real thing.</p>
+<p>For example - let’s say you are a service providing some personalized recommendations, but the recommendation engine has been circuit broken. By providing some general pre-cached recommendations an end user wouldn’t notice the difference, unless they <em>really</em> started poking around.</p>
+<h2 id="Bulkhead"><a href="#Bulkhead" class="headerlink" title="Bulkhead"></a>Bulkhead</h2><p>Have you ever experienced a performance issue where a slow running resource, be it a database or API call, has caused requests to back up and eventually consume all the threads in your app. The reason for this is that your app is acting like a big hollow rowing boat - one leak and water eventually consumes the whole thing.</p>
+<p>The bulkhead pattern (in reference to a ship’s bulk heads) is a way to isolate different remote calls into their own thread pools. If one remote resource causes requests to queue up then the problem is isolated to that single resource, protecting the rest of the application to carry on as normal as possible.</p>
+<p><img src="/images/spring-microservices/bulkhead.png" alt=""></p>
+<h1 id="Zuul"><a href="#Zuul" class="headerlink" title="Zuul"></a>Zuul</h1><p>Zuul (as in that nightmarish dog-monster thing from Ghostbusters) acts as a gatekeeper to your full suite of microservices. This single entrypoint for all requests allows you to manage several cross-cutting concerns in one place. Aspects such as security, monitoring and logging, to name but a few.</p>
+<p>Zuul can intercept a request at potentially three separate points in the lifecycle of a request, allowing you to decorate with additional functionality as appropriate.</p>
+<ul>
+<li><strong>pre filters</strong> add custom logic to process the request as it enters your “domain”</li>
+<li><strong>post filters</strong> are the final stop as a response leaves your platform. For example, to log the completion of the request.</li>
+<li><strong>route filters</strong> intercept the request before it travels upstream and gives you the chance to alter its destination. Great for managing A/B testing, and similar strategies.</li>
+</ul>
+<p>In addition to this Zuul integrates seamlessly with the Eureka service discovery engine, to be able to dynamically determine healthy upstream resources.</p>
+<p><img src="/images/spring-microservices/zuul.png" alt=""></p>
+<h1 id="Event-Based-Architecture"><a href="#Event-Based-Architecture" class="headerlink" title="Event Based Architecture"></a>Event Based Architecture</h1><p>Often microservices communicate via RESTful API calls. REST implies synchronicity because the request/response are naturally tied together and as such cause a fairly tight coupling between two services.</p>
+<p>Unfortunately, this tight coupling causes some complexity in managing communication in aspects such as fault tolerance (i.e the Hystrix library we discussed earlier). Synchronous communication is also much more affected by general slowness making graceful degradation a tricky prospect.</p>
+<p>By decoupling services through some kind of message bus we gain many advantages through asynchronous messaging. The ability to easily scale, to cope with outages and downtime, and to evolve your architecture to support additional consumers, are all great benefits that can make your system much more resilient and flexible.</p>
+<p><img src="/images/spring-microservices/messages.png" alt=""></p>
+<h1 id="Zipkin"><a href="#Zipkin" class="headerlink" title="Zipkin"></a>Zipkin</h1><p>With all of this technology chatting away in a distributed fashion it can make debugging a production issue quite a challenge, to say the least.</p>
+<p>The <a href="http://opentracing.io/" target="_blank" rel="noopener">OpenTracing</a> initiative aims to alleviate this problem by providing a vendor, language and framework independent solution - of which <a href="http://zipkin.io/" target="_blank" rel="noopener">Zipkin</a> is a member.</p>
+<p>A single request flow, or trace, is started at our gateway (e.g. Zuul) and propagates through the full traversal. Each trace is broken down into a number of spans which represent some service processing step such as a database call.</p>
+<p>Traces are captured and logged to a central service for only a small sample of requests (by default 10%). The final outcome is a visual representation of the lifecycle of a request through your system, accompanied by some key metrics at each stage (span) allowing you to track down those sneaky areas of concern. </p>
+<p><img src="/images/spring-microservices/zipkin.png" alt=""></p>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>Spring Cloud can greatly simplify the development of a suite of robust, cleanly integrated microservices. However, there is an open question as to how well this integration stretches to non-spring services - and, of course, part of the microservice mantra is to use the right tool for each job, which may lead to a more diverse technology footprint across many teams. I suppose this may be the case in which a service mesh makes most sense. But if you are starting out with a handful of Java based services, you could do much worse than adopting the Spring Cloud framework and it’s associates.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://lucasmatt.com/2017/08/22/spring-microservices/" data-id="cjhz4jghs000og5r1vnnwc7zt" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://lucasmatt.com/2017/08/22/spring-microservices/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://lucasmatt.com/2017/08/22/spring-microservices/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/01/radar-jan-18/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Technology Radar Jan &#39;18
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/08/13/python-async/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Python 3 Asyncio</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/13/testing-nightmares/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/nightmare.jpg)" alt="6(66) Nightmares of Microservice Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Testing/">Testing</a></p>
+                            <p class="item-title"><a href="/2018/03/13/testing-nightmares/" class="title">6(66) Nightmares of Microservice Testing</a></p>
+                            <p class="item-date"><time datetime="2018-03-13T19:35:18.000Z" itemprop="datePublished">2018-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/17/bits-2017-02-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/flat_bits_thumb.jpg)" alt="[Bits 1] Year of the Dog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/bits/">bits</a></p>
+                            <p class="item-title"><a href="/2018/02/17/bits-2017-02-18/" class="title">[Bits 1] Year of the Dog</a></p>
+                            <p class="item-date"><time datetime="2018-02-17T00:00:00.000Z" itemprop="datePublished">2018-02-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/01/radar-jan-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/radar-jan-18/firework.jpg)" alt="Technology Radar Jan &#39;18" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech-Radar/">Tech Radar</a></p>
+                            <p class="item-title"><a href="/2018/01/01/radar-jan-18/" class="title">Technology Radar Jan &#39;18</a></p>
+                            <p class="item-date"><time datetime="2018-01-01T00:00:00.000Z" itemprop="datePublished">2018-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/22/spring-microservices/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring-microservices/spring.jpg)" alt="Spring Cloud in 10 Bad Cartoons" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/22/spring-microservices/" class="title">Spring Cloud in 10 Bad Cartoons</a></p>
+                            <p class="item-date"><time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/13/python-async/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/python-async/python.jpg)" alt="Python 3 Asyncio" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/13/python-async/" class="title">Python 3 Asyncio</a></p>
+                            <p class="item-date"><time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Science/">Data Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech-Radar/">Tech Radar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thoughts/">Thoughts</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bits/">bits</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/augeas/" style="font-size: 10px;">augeas</a> <a href="/tags/bits/" style="font-size: 10px;">bits</a> <a href="/tags/data-science/" style="font-size: 10px;">data science</a> <a href="/tags/development/" style="font-size: 10px;">development</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/growth/" style="font-size: 10px;">growth</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/microservices/" style="font-size: 20px;">microservices</a> <a href="/tags/production/" style="font-size: 10px;">production</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/radar/" style="font-size: 10px;">radar</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/statistics/" style="font-size: 15px;">statistics</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a> <a href="/tags/thinking/" style="font-size: 15px;">thinking</a> <a href="/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.linkedin.com/in/lucas-matt/">linkedin</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://twitter.com/NotMattLucas">twitter</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/lucas-matt">github</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Matt Lucas<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://lucasmatt.com/2017/08/22/spring-microservices/';
+        
+        this.page.identifier = 'spring-microservices';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'lucasmatt.com' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

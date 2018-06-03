@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>#7FaveGames - Creating a Word Cloud from 346,859 Tweets | lucasmatt.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Creating a word cloud from 346,859 #7FaveGames tweets to find the most popular">
+<meta name="keywords" content="data science,statistics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="#7FaveGames - Creating a Word Cloud from 346,859 Tweets">
+<meta property="og:url" content="http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/index.html">
+<meta property="og:site_name" content="lucasmatt.com">
+<meta property="og:description" content="Creating a word cloud from 346,859 #7FaveGames tweets to find the most popular">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://lucasmatt.com/images/7favegames.png">
+<meta property="og:updated_time" content="2018-05-27T15:07:31.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="#7FaveGames - Creating a Word Cloud from 346,859 Tweets">
+<meta name="twitter:description" content="Creating a word cloud from 346,859 #7FaveGames tweets to find the most popular">
+<meta name="twitter:image" content="http://lucasmatt.com/images/7favegames.png">
+<meta name="twitter:creator" content="@notmattlucas">
+<link rel="publisher" href="lucas1000001">
+    
+
+    
+        <link rel="alternate" href="/rss2.xml" title="lucasmatt.com" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17281106-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">lucasmatt.com</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/avatar.jpg" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/avatar.jpg" />
+            <h2 id="name">Matthew Lucas</h2>
+            <h3 id="title">Software Developer &amp; General Nerd</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Cardiff, UK</span>
+            <a id="follow" target="_blank" href="https://github.com/lucas-matt/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                12
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                20
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/lucas-matt" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://twitter.com/notmattlucas" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/rss2.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fab fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-2016-08-13-7favegames" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            #7FaveGames - Creating a Word Cloud from 346,859 Tweets
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2016/08/13/2016-08-13-7favegames/">
+            <time datetime="2016-08-13T00:00:00.000Z" itemprop="datePublished">2016-08-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Data-Science/">Data Science</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/data-science/">data science</a>, <a class="tag-link" href="/tags/statistics/">statistics</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="/images/7favegames.png" alt=""></p>
+<p>Over the last few days the hashtag <strong>#7FaveGames</strong> has been trending on<br>twitter. As you can probably guess you’re supposed to list your top seven games of<br>all time and put them out to the world to be judged!</p>
+<p>Of course, I jumped straight into this trend and submitted my own faves - if<br>you’re interested, my choices are in the banner of this post.</p>
+<p>Whilst trawling my own gaming history, I started to<br>wonder about the most popular games overall. A great excuse to<br>pull out the R analytics toolkit and do some amateur data science.</p>
+<h2 id="Gathering-all-those-Tweets"><a href="#Gathering-all-those-Tweets" class="headerlink" title="Gathering all those Tweets"></a>Gathering all those Tweets</h2><p>The first step was to gather as many <strong>#7FaveGames</strong> tweets as<br>possible without crossing the boundaries set by the twitter API (180<br>requests per 15 minutes).</p>
+<p>I decided to store all tweets with their metadata in a CSV file. This<br>makes the data much easier to explore and reload - specifically for<br>the numerous cases where I accidently trashed my in-memory copy.</p>
+<h3 id="Initialize-CSV-Store"><a href="#Initialize-CSV-Store" class="headerlink" title="Initialize CSV Store"></a>Initialize CSV Store</h3><p>Initially we want to set some parameters and pull the first<br>batch. This initial chunk is used to create the CSV file to which we<br>will append during the rest of the process.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># define batch size</span></span><br><span class="line">batch &lt;- <span class="number">500</span></span><br><span class="line">sleepPeriod &lt;- <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pull first batch and initialize output file</span></span><br><span class="line">tweets &lt;- searchTwitter(<span class="string">"#7FaveGames"</span>, n=batch, retryOnRateLimit=batch)</span><br><span class="line">parsed &lt;- do.call(<span class="string">"rbind.fill"</span>, lapply(tweets, as.data.frame))</span><br><span class="line">write.table(parsed, file=<span class="string">"7favegames.csv"</span>, sep=<span class="string">","</span>, append=<span class="literal">TRUE</span>, col.names=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Grab-the-Rest-of-the-Data"><a href="#Grab-the-Rest-of-the-Data" class="headerlink" title="Grab the Rest of the Data"></a>Grab the Rest of the Data</h3><p>Next we just paginate, in descending chronological order, through<br>the rest of the data using the <strong>maxID</strong> key to shift the query<br>window. The last id in the current batch is used as the maxID in the<br>next to ensure a contiguous set of tweets.</p>
+<p>We just keep looping through until we hit a batch smaller than<br>expected, or a NA id.</p>
+<p>Admittedly it’s a pretty basic approach, but it does the job <em>… in a<br>few short hours …</em></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># while we still have tweets to read, pull batches</span></span><br><span class="line"><span class="comment"># (with respect to twitter so I don't get kicked)</span></span><br><span class="line">pull &lt;- <span class="literal">TRUE</span></span><br><span class="line"><span class="keyword">while</span> (pull) &#123;</span><br><span class="line">  <span class="comment"># grab the last id of the previous batch</span></span><br><span class="line">  id &lt;- parsed$id[batch]</span><br><span class="line">  print(c(<span class="string">"Getting batch with id "</span>, id))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># perform a paginated search on twitter</span></span><br><span class="line">  tweets &lt;- searchTwitter(<span class="string">"#7FaveGames"</span>, n=batch+<span class="number">1</span>, retryOnRateLimit=batch, maxID=id)</span><br><span class="line">  parsed &lt;- do.call(<span class="string">"rbind.fill"</span>, lapply(tweets, as.data.frame))</span><br><span class="line"></span><br><span class="line">  <span class="comment"># strip the first record to avoid duplicates, as it was the last in the previous batch</span></span><br><span class="line">  parsed &lt;- parsed[-(<span class="number">1</span>:<span class="number">1</span>),]</span><br><span class="line">  write.table(parsed, file=<span class="string">"7favegames.csv"</span>, sep=<span class="string">","</span>, append=<span class="literal">TRUE</span>, col.names=<span class="literal">FALSE</span>)</span><br><span class="line">  pull &lt;- (nrow(parsed) &gt; <span class="number">1</span>) || (!is.na(id))</span><br><span class="line"></span><br><span class="line">  <span class="comment"># just pause for a moment to avoid hammering the twitter api</span></span><br><span class="line">  <span class="comment"># TBH the 'retryOnRateLimit' would probably do the job better anyway</span></span><br><span class="line">  Sys.sleep(sleepPeriod)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Building-a-Word-Cloud"><a href="#Building-a-Word-Cloud" class="headerlink" title="Building a Word Cloud"></a>Building a Word Cloud</h2><h3 id="Which-Libraries"><a href="#Which-Libraries" class="headerlink" title="Which Libraries?"></a>Which Libraries?</h3><p>First we import a bunch of libraries that we will need.</p>
+<ul>
+<li><strong>tm</strong> and <strong>SnowballC</strong> for text mining and transformation</li>
+<li><strong>RColorBrewer</strong> to pick a color palette</li>
+<li><strong>wordcloud</strong> to plot the cloud itself</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(tm)</span><br><span class="line"><span class="keyword">library</span>(SnowballC)</span><br><span class="line"><span class="keyword">library</span>(wordcloud)</span><br><span class="line"><span class="keyword">library</span>(RColorBrewer)</span><br></pre></td></tr></table></figure>
+<h3 id="Change-Encoding"><a href="#Change-Encoding" class="headerlink" title="Change Encoding"></a>Change Encoding</h3><p>We read in the data we collected in the last step. For some unknown reason the<br>data is coming back in an odd<br>encoding. We need to force it to UTF-8 to avoid the “tm” algorithms<br>crashing out half-way through.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data &lt;- read.csv(<span class="string">"7favegames.csv"</span>, row.names=<span class="literal">NULL</span>, stringsAsFactors = <span class="literal">FALSE</span>)</span><br><span class="line">tweets &lt;- data$text</span><br><span class="line">tweets &lt;- enc2utf8(tweets)</span><br></pre></td></tr></table></figure>
+<h3 id="Convert-“Odd”-Characters-and-Numbers"><a href="#Convert-“Odd”-Characters-and-Numbers" class="headerlink" title="Convert “Odd” Characters and Numbers"></a>Convert “Odd” Characters and Numbers</h3><p>Many of the video game titles include roman numerals (e.g. Final<br>Fantasy X) or accented characters (e.g. Pokémon). We want to simplify<br>these down to a common form so we don’t end up with duplicates<br>(such as Pokémon vs Pokemon).</p>
+<p>The roman numeral converter is pretty primitive but, I think, fine for this<br>purpose. <em>The odd ordering of the numbers is so that we’re greedy in<br>our matching of independent roman numerals (i.e. we don’t match a<br>substring of a numeral and corrupt the value).</em></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">replaceRoman &lt;- <span class="keyword">function</span>(vect) &#123;</span><br><span class="line">  numerals &lt;- c(<span class="string">"xviii"</span>, <span class="string">"xvii"</span>, <span class="string">"xiii"</span>, <span class="string">"viii"</span>, <span class="string">"xiv"</span>, <span class="string">"xvi"</span>, <span class="string">"xix"</span>, <span class="string">"vii"</span>, <span class="string">"iii"</span>, <span class="string">"xii"</span>, <span class="string">"ii"</span>, <span class="string">"iv"</span>, <span class="string">"vi"</span>, <span class="string">"ix"</span>, <span class="string">"xi"</span>, <span class="string">"xv"</span>, <span class="string">"xx"</span>, <span class="string">"i"</span>, <span class="string">"v"</span>, <span class="string">"x"</span>)</span><br><span class="line">  numbers &lt;- c(<span class="number">18</span>, <span class="number">17</span>, <span class="number">13</span>, <span class="number">8</span>, <span class="number">14</span>, <span class="number">16</span>, <span class="number">19</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">12</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>)</span><br><span class="line">  <span class="keyword">for</span> (i <span class="keyword">in</span> c(<span class="number">1</span>:length(numerals))) &#123;</span><br><span class="line">    vect &lt;- gsub(paste(<span class="string">"\\b"</span>, numerals[i], <span class="string">"\\b"</span>, sep=<span class="string">""</span>), numbers[i], vect)</span><br><span class="line">    vect &lt;- gsub(paste(<span class="string">"\\b"</span>, toupper(numerals[i]), <span class="string">"\\b"</span>, sep=<span class="string">""</span>), numbers[i], vect)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>(vect)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">tweets &lt;- replaceRoman(tweets)</span><br><span class="line"><span class="comment"># remove accented characters</span></span><br><span class="line">tweets &lt;- iconv(tweets, to=<span class="string">'ASCII//TRANSLIT'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Perform-Corpus-Transformations"><a href="#Perform-Corpus-Transformations" class="headerlink" title="Perform Corpus Transformations"></a>Perform Corpus Transformations</h3><p>This is where the bulk of the transformations occur. We first create a<br>text corpus from our tweets and …</p>
+<ul>
+<li>Convert to lower case</li>
+<li>Remove any punctuation</li>
+<li>Remove stop words, such as <strong>“the”</strong> and <strong>“and”</strong>. Or those specific to tweets(<strong>“rt”</strong> and <strong>“lol”</strong>), and video games (e.g. <strong>“super”</strong> to avoid common words in all those SNES games).</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">corpus &lt;- Corpus(VectorSource(tweets))</span><br><span class="line">corpus &lt;- tm_map(corpus, content_transformer(tolower))</span><br><span class="line">corpus &lt;- tm_map(corpus, PlainTextDocument)</span><br><span class="line">corpus &lt;- tm_map(corpus, removePunctuation)</span><br><span class="line">corpus &lt;- tm_map(corpus, removeWords, c(<span class="string">"7favegames"</span>, <span class="string">"amp"</span>, <span class="string">"rt"</span>, <span class="string">"lol"</span>, <span class="string">"follow"</span>, <span class="string">"twitter"</span>, <span class="string">"series"</span>, <span class="string">"new"</span>, <span class="string">"super"</span>, stopwords(<span class="string">"english"</span>)))</span><br></pre></td></tr></table></figure>
+<h3 id="Plot-Word-Cloud"><a href="#Plot-Word-Cloud" class="headerlink" title="Plot Word Cloud"></a>Plot Word Cloud</h3><p>Finally, now that we have our simplified corpus, we can plot our word<br>cloud.</p>
+<p>We choose a fairly solid color scheme, avoiding too many of the weaker<br>shades that would be hard to read. You can see the full selection of palettes by running <em>display.brewer.all()</em></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># plot word cloud</span></span><br><span class="line">pal &lt;- brewer.pal(<span class="number">8</span>,<span class="string">"Dark2"</span>)</span><br><span class="line">wordcloud(corpus, max.words = <span class="number">200</span>, random.order=<span class="literal">TRUE</span>, scale=c(<span class="number">5</span>, <span class="number">.5</span>), colors = pal)</span><br></pre></td></tr></table></figure>
+<h2 id="The-End-Result"><a href="#The-End-Result" class="headerlink" title="The End Result"></a>The End Result</h2><p>And here’s the end result:</p>
+<p><img src="/images/7FaveGames_cloud.png" alt="7favegames Word Cloud"></p>
+<p>Clearly Mario and Pokemon are the most popular - no real surprise there -<br>but it’s interesting to see other titles such as Dark Souls, Bioshock<br>and Bayonetta pop up. There are a couple of newer titles that make an appearance too, such as<br>Overwatch and Rocket League, but this may be partially due to some<br>kind of recency bias.</p>
+<p>Admittedly the model does have some fundamental flaws though, including:</p>
+<ul>
+<li>Not accounting for the difference between a single game and<br>series. For example the Final Fantasy saga will get over-represented<br>due to the sheer number of releases.</li>
+<li>Titles with more complicated names, or names prone to acronym, will<br>get under-represented due to the algorithm not being able to tie<br>those together.</li>
+<li>Tweets that repeat a single game over and over will add unfairly to<br>its weight.</li>
+</ul>
+<p>But regardless, it’s a fun experiment to run, and does give us some<br>idea of the relative popularity of the various titles.</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><ul>
+<li><a href="https://github.com/lucas-matt/7FaveGames" target="_blank" rel="noopener">Github: Source Code &amp; Dataset</a></li>
+<li><a href="http://www.kotaku.com.au/2016/08/our-7-fave-games/" target="_blank" rel="noopener">Kotaku: Our ‘7 Fave Games’</a></li>
+<li><a href="https://uk.news.yahoo.com/7favegames-getting-twitter-users-nostalgic-145242961.html?nhp=1" target="_blank" rel="noopener">#7FaveGames is getting Twitter users nostalgic</a></li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/" data-id="cjhz4jgh70006g5r1zmj7afz3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/08/24/2016-08-24-pyintellij/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Python Development with Vagrant &amp; IntelliJ
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/03/04/2016-03-04-zero-downtime-upgrade-patterns/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Zero Downtime Upgrade Problems and Patterns</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/03/13/testing-nightmares/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/nightmare.jpg)" alt="6(66) Nightmares of Microservice Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Testing/">Testing</a></p>
+                            <p class="item-title"><a href="/2018/03/13/testing-nightmares/" class="title">6(66) Nightmares of Microservice Testing</a></p>
+                            <p class="item-date"><time datetime="2018-03-13T19:35:18.000Z" itemprop="datePublished">2018-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/02/17/bits-2017-02-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/flat_bits_thumb.jpg)" alt="[Bits 1] Year of the Dog" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/bits/">bits</a></p>
+                            <p class="item-title"><a href="/2018/02/17/bits-2017-02-18/" class="title">[Bits 1] Year of the Dog</a></p>
+                            <p class="item-date"><time datetime="2018-02-17T00:00:00.000Z" itemprop="datePublished">2018-02-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/01/radar-jan-18/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/radar-jan-18/firework.jpg)" alt="Technology Radar Jan &#39;18" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech-Radar/">Tech Radar</a></p>
+                            <p class="item-title"><a href="/2018/01/01/radar-jan-18/" class="title">Technology Radar Jan &#39;18</a></p>
+                            <p class="item-date"><time datetime="2018-01-01T00:00:00.000Z" itemprop="datePublished">2018-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/22/spring-microservices/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/spring-microservices/spring.jpg)" alt="Spring Cloud in 10 Bad Cartoons" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/22/spring-microservices/" class="title">Spring Cloud in 10 Bad Cartoons</a></p>
+                            <p class="item-date"><time datetime="2017-08-22T00:00:00.000Z" itemprop="datePublished">2017-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/08/13/python-async/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/images/python-async/python.jpg)" alt="Python 3 Asyncio" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Programming/">Programming</a></p>
+                            <p class="item-title"><a href="/2017/08/13/python-async/" class="title">Python 3 Asyncio</a></p>
+                            <p class="item-date"><time datetime="2017-08-13T00:00:00.000Z" itemprop="datePublished">2017-08-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Architecture/">Architecture</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Science/">Data Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech-Radar/">Tech Radar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Testing/">Testing</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thoughts/">Thoughts</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bits/">bits</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/augeas/" style="font-size: 10px;">augeas</a> <a href="/tags/bits/" style="font-size: 10px;">bits</a> <a href="/tags/data-science/" style="font-size: 10px;">data science</a> <a href="/tags/development/" style="font-size: 10px;">development</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/growth/" style="font-size: 10px;">growth</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/microservices/" style="font-size: 20px;">microservices</a> <a href="/tags/production/" style="font-size: 10px;">production</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/radar/" style="font-size: 10px;">radar</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/statistics/" style="font-size: 15px;">statistics</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a> <a href="/tags/thinking/" style="font-size: 15px;">thinking</a> <a href="/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/tags/vagrant/" style="font-size: 10px;">vagrant</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.linkedin.com/in/lucas-matt/">linkedin</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://twitter.com/NotMattLucas">twitter</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/lucas-matt">github</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Matt Lucas<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://lucasmatt.com/2016/08/13/2016-08-13-7favegames/';
+        
+        this.page.identifier = '2016-08-13-7favegames';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'lucasmatt.com' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
